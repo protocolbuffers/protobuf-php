@@ -155,7 +155,6 @@ function checkKey($key_type, &$key)
             GPBUtil::checkString($key, true);
             break;
         default:
-            var_dump($key_type);
             trigger_error(
                 "Given type cannot be map key.",
                 E_USER_ERROR);
@@ -201,6 +200,30 @@ class MapField implements \ArrayAccess, \IteratorAggregate, \Countable
         $this->key_type = $key_type;
         $this->value_type = $value_type;
         $this->klass = $klass;
+    }
+
+    /**
+     * @ignore
+     */
+    public function getKeyType()
+    {
+        return $this->key_type;
+    }
+
+    /**
+     * @ignore
+     */
+    public function getValueType()
+    {
+        return $this->value_type;
+    }
+
+    /**
+     * @ignore
+     */
+    public function getValueClass()
+    {
+        return $this->klass;
     }
 
     /**
@@ -260,6 +283,9 @@ class MapField implements \ArrayAccess, \IteratorAggregate, \Countable
                 GPBUtil::checkString($value, true);
                 break;
             case GPBType::MESSAGE:
+                if (is_null($value)) {
+                  trigger_error("Map element cannot be null.", E_USER_ERROR);
+                }
                 GPBUtil::checkMessage($value, $this->klass);
                 break;
             default:
