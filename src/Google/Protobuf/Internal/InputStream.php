@@ -34,6 +34,27 @@ namespace Google\Protobuf\Internal;
 
 use Google\Protobuf\Internal\Uint64;
 
+function combineInt32ToInt64($high, $low)
+{
+    $isNeg = $high < 0;
+    if ($isNeg) {
+        $high = ~$high;
+        $low = ~$low;
+        $low++;
+        if (!$low) {
+            $high++;
+        }
+    }
+    $result = bcadd(bcmul($high, 4294967296), $low);
+    if ($low < 0) {
+        $result = bcadd($result, 4294967296);
+    }
+    if ($isNeg) {
+      $result = bcsub(0, $result);
+    }
+    return $result;
+}
+
 class InputStream
 {
 
@@ -116,11 +137,23 @@ class InputStream
         if (!$this->readVarint64($var)) {
             return false;
         }
-        $var = $var->toInteger() & 0xFFFFFFFF;
-        // Convert large uint32 to int32.
-        if (PHP_INT_SIZE === 8 && ($var > 0x7FFFFFFF)) {
-            $var = $var | (0xFFFFFFFF << 32);
+
+        if (PHP_INT_SIZE == 4) {
+            $var = bcmod($var, 4294967296);
+        } else {
+            $var &= 0xFFFFFFFF;
         }
+
+        // Convert large uint32 to int32.
+        if ($var > 0x7FFFFFFF) {
+            if (PHP_INT_SIZE === 8) {
+                $var = $var | (0xFFFFFFFF << 32);
+            } else {
+                $var = bcsub($var, 4294967296);
+            }
+        }
+
+        $var = intval($var);
         return true;
     }
 
@@ -130,24 +163,59 @@ class InputStream
      */
     public function readVarint64(&$var)
     {
-        $result = new Uint64(0);
         $count = 0;
-        $b = 0;
 
-        do {
-            if ($this->current === $this->buffer_end) {
-                return false;
-            }
-            if ($count === self::MAX_VARINT_BYTES) {
-                return false;
-            }
-            $b = ord($this->buffer[$this->current]);
-            $result->bitOr((new Uint64($b & 0x7F))->leftShift(7 * $count));
-            $this->advance(1);
-            $count += 1;
-        } while ($b & 0x80);
+        if (PHP_INT_SIZE == 4) {
+            $high = 0;
+            $low = 0;
+            $b = 0;
 
-        $var = $result;
+            do {
+                if ($this->current === $this->buffer_end) {
+                    return false;
+                }
+                if ($count === self::MAX_VARINT_BYTES) {
+                    return false;
+                }
+                $b = ord($this->buffer[$this->current]);
+                $bits = 7 * $count;
+                if ($bits >= 32) {
+                    $high |= (($b & 0x7F) << ($bits - 32));
+                } else if ($bits > 25){
+                    // $bits is 28 in this case.
+                    $low |= (($b & 0x7F) << 28);
+                    $high = ($b & 0x7F) >> 4;
+                } else {
+                    $low |= (($b & 0x7F) << $bits);
+                }
+
+                $this->advance(1);
+                $count += 1;
+            } while ($b & 0x80);
+
+            $var = combineInt32ToInt64($high, $low);
+        } else {
+            $result = 0;
+            $shift = 0;
+
+            do {
+                if ($this->current === $this->buffer_end) {
+                    return false;
+                }
+                if ($count === self::MAX_VARINT_BYTES) {
+                    return false;
+                }
+
+                $byte = ord($this->buffer[$this->current]);
+                $result |= ($byte & 0x7f) << $shift;
+                $shift += 7;
+                $this->advance(1);
+                $count += 1;
+            } while ($byte > 0x7f);
+
+            $var = $result;
+        }
+
         return true;
     }
 
@@ -161,7 +229,7 @@ class InputStream
         if (!$this->readVarint64($var)) {
             return false;
         }
-        $var = $var->toInteger();
+        $var = (int)$var;
         return true;
     }
 
@@ -197,7 +265,11 @@ class InputStream
             return false;
         }
         $high = unpack('V', $data)[1];
-        $var = Uint64::newValue($high, $low);
+        if (PHP_INT_SIZE == 4) {
+            $var = combineInt32ToInt64($high, $low);
+        } else {
+            $var = ($high << 32) | $low;
+        }
         return true;
     }
 

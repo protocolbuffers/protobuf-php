@@ -125,6 +125,16 @@ class Message
                 $oneof = $this->desc->getOneofDecl()[$field->getOneofIndex()];
                 $oneof_name = $oneof->getName();
                 $this->$oneof_name = new OneofField($oneof);
+            } else if ($field->getLabel() === GPBLabel::OPTIONAL && 
+                       PHP_INT_SIZE == 4) {
+                switch ($field->getType()) {
+                    case GPBType::INT64:
+                    case GPBType::UINT64:
+                    case GPBType::FIXED64:
+                    case GPBType::SFIXED64:
+                    case GPBType::SINT64:
+                        $this->$setter("0");
+                }
             }
         }
     }
@@ -165,17 +175,22 @@ class Message
             case GPBType::FLOAT:
                 return 0.0;
             case GPBType::UINT32:
-            case GPBType::UINT64:
             case GPBType::INT32:
-            case GPBType::INT64:
             case GPBType::FIXED32:
-            case GPBType::FIXED64:
             case GPBType::SFIXED32:
-            case GPBType::SFIXED64:
             case GPBType::SINT32:
-            case GPBType::SINT64:
             case GPBType::ENUM:
                 return 0;
+            case GPBType::INT64:
+            case GPBType::UINT64:
+            case GPBType::FIXED64:
+            case GPBType::SFIXED64:
+            case GPBType::SINT64:
+                if (PHP_INT_SIZE === 4) {
+                    return '0';
+                } else {
+                    return 0;
+                }
             case GPBType::BOOL:
                 return false;
             case GPBType::STRING:
@@ -210,13 +225,11 @@ class Message
                 if (!GPBWire::readInt64($input, $value)) {
                     return false;
                 }
-                $value = $value->toInteger();
                 break;
             case GPBType::UINT64:
                 if (!GPBWire::readUint64($input, $value)) {
                     return false;
                 }
-                $value = $value->toInteger();
                 break;
             case GPBType::INT32:
                 if (!GPBWire::readInt32($input, $value)) {
@@ -227,7 +240,6 @@ class Message
                 if (!GPBWire::readFixed64($input, $value)) {
                     return false;
                 }
-                $value = $value->toInteger();
                 break;
             case GPBType::FIXED32:
                 if (!GPBWire::readFixed32($input, $value)) {
@@ -285,7 +297,6 @@ class Message
                 if (!GPBWire::readSfixed64($input, $value)) {
                     return false;
                 }
-                $value = $value->toInteger();
                 break;
             case GPBType::SINT32:
                 if (!GPBWire::readSint32($input, $value)) {
@@ -296,7 +307,6 @@ class Message
                 if (!GPBWire::readSint64($input, $value)) {
                     return false;
                 }
-                $value = $value->toInteger();
                 break;
             default:
                 user_error("Unsupported type.");
@@ -389,6 +399,11 @@ class Message
 
             $number = GPBWire::getTagFieldNumber($tag);
             $field = $this->desc->getFieldByNumber($number);
+
+            // Check whether we retrieved a known field
+            if ($field === NULL) {
+              continue;
+            }
 
             if (!$this->parseFieldFromStream($tag, $input, $field)) {
                 return false;

@@ -32,10 +32,6 @@
 
 namespace Google\Protobuf\Internal;
 
-use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\Int64;
-use Google\Protobuf\Internal\Uint64;
-
 class GPBWire
 {
 
@@ -150,20 +146,28 @@ class GPBWire
 
     public static function zigZagEncode64($int64)
     {
-        $a = $int64->copy()->leftShift(1);
-        $b = $int64->copy()->rightShift(63);
-        $result = $a->bitXor($b);
-        $uint64 = Uint64::newValue($result->high, $result->low);
-        return $uint64;
+        if (PHP_INT_SIZE == 4) {
+            if (bccomp($int64, 0) >= 0) {
+                return bcmul($int64, 2);
+            } else {
+                return bcsub(bcmul(bcsub(0, $int64), 2), 1);
+            }
+        } else {
+            return ($int64 << 1) ^ ($int64 >> 63);
+        }
     }
 
     public static function zigZagDecode64($uint64)
     {
-        $a = $uint64->copy()->rightShift(1);
-        $b = $uint64->oddMask();
-        $result = $a->bitXor($b);
-        $int64 = Int64::newValue($result->high, $result->low);
-        return $int64;
+        if (PHP_INT_SIZE == 4) {
+            if (bcmod($uint64, 2) == 0) {
+                return bcdiv($uint64, 2, 0);
+            } else {
+                return bcsub(0, bcdiv(bcadd($uint64, 1), 2, 0));
+            }
+        } else {
+            return (($uint64 >> 1) & 0x7FFFFFFFFFFFFFFF) ^ (-($uint64 & 1));
+        }
     }
 
     public static function readInt32(&$input, &$value)
@@ -227,11 +231,7 @@ class GPBWire
 
     public static function readSfixed64(&$input, &$value)
     {
-        if (!self::readFixed64($input, $value)) {
-            return false;
-        }
-        $value = Int64::newValue($value->high, $value->low);
-        return true;
+        return $input->readLittleEndian64($value);
     }
 
     public static function readFloat(&$input, &$value)
@@ -259,7 +259,7 @@ class GPBWire
         if (!$input->readVarint64($value)) {
             return false;
         }
-        if ($value->high === 0 && $value->low === 0) {
+        if ($value == 0) {
             $value = false;
         } else {
             $value = true;
@@ -324,8 +324,8 @@ class GPBWire
 
     public static function writeSint64(&$output, $value)
     {
-        $value = GPBWire::zigZagEncode64(GPBUtil::Int64($value));
-        return $output->writeVarint64($value->toInteger());
+        $value = GPBWire::zigZagEncode64($value);
+        return $output->writeVarint64($value);
     }
 
     public static function writeFixed32(&$output, $value)
@@ -431,41 +431,71 @@ class GPBWire
 
     public static function sint64Size($value)
     {
-        $value = GPBUtil::Int64($value);
         $value = self::zigZagEncode64($value);
-        return self::varint64Size($value->toInteger());
+        return self::varint64Size($value);
     }
 
     public static function varint64Size($value)
     {
-        if ($value < 0) {
-            return 10;
+        if (PHP_INT_SIZE == 4) {
+            if (bccomp($value, 0) < 0) {
+                return 10;
+            }    
+            if (bccomp($value, 1 << 7) < 0) {
+                return 1;
+            }
+            if (bccomp($value, 1 << 14) < 0) {
+                return 2;
+            }
+            if (bccomp($value, 1 << 21) < 0) {
+                return 3;
+            }
+            if (bccomp($value, 1 << 28) < 0) {
+                return 4;
+            }
+            if (bccomp($value, '34359738368') < 0) {
+                return 5;
+            }
+            if (bccomp($value, '4398046511104') < 0) {
+                return 6;
+            }
+            if (bccomp($value, '562949953421312') < 0) {
+                return 7;
+            }
+            if (bccomp($value, '72057594037927936') < 0) {
+                return 8;
+            }
+            return 9;
+        } else {
+            if ($value < 0) {
+                return 10;
+            }    
+            if ($value < (1 <<  7)) {
+                return 1;
+            }
+            if ($value < (1 << 14)) {
+                return 2;
+            }
+            if ($value < (1 << 21)) {
+                return 3;
+            }
+            if ($value < (1 << 28)) {
+                return 4;
+            }
+            if ($value < (1 << 35)) {
+                return 5;
+            }
+            if ($value < (1 << 42)) {
+                return 6;
+            }
+            if ($value < (1 << 49)) {
+                return 7;
+            }
+            if ($value < (1 << 56)) {
+                return 8;
+            }
+            return 9;
         }
-        if ($value < (1 <<  7)) {
-            return 1;
-        }
-        if ($value < (1 << 14)) {
-            return 2;
-        }
-        if ($value < (1 << 21)) {
-            return 3;
-        }
-        if ($value < (1 << 28)) {
-            return 4;
-        }
-        if ($value < (1 << 35)) {
-            return 5;
-        }
-        if ($value < (1 << 42)) {
-            return 6;
-        }
-        if ($value < (1 << 49)) {
-            return 7;
-        }
-        if ($value < (1 << 56)) {
-            return 8;
-        }
-        return 9;
     }
 
     public static function serializeFieldToStream(
