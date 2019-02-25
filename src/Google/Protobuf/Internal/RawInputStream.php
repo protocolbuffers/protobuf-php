@@ -32,32 +32,19 @@
 
 namespace Google\Protobuf\Internal;
 
-use Google\Protobuf\Internal\EnumDescriptor;
-use Google\Protobuf\EnumValueDescriptor;
-
-class EnumBuilderContext
+class RawInputStream
 {
 
-    private $descriptor;
-    private $pool;
+    private $buffer;
 
-    public function __construct($full_name, $klass, $pool)
+    public function __construct($buffer)
     {
-        $this->descriptor = new EnumDescriptor();
-        $this->descriptor->setFullName($full_name);
-        $this->descriptor->setClass($klass);
-        $this->pool = $pool;
+        $this->buffer = $buffer;
     }
 
-    public function value($name, $number)
+    public function getData()
     {
-        $value = new EnumValueDescriptor($name, $number);
-        $this->descriptor->addValue($number, $value);
-        return $this;
+        return $this->buffer;
     }
 
-    public function finalizeToPool()
-    {
-        $this->pool->addEnumDescriptor($this->descriptor);
-    }
 }

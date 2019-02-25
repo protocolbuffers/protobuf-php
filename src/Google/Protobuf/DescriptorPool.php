@@ -1,7 +1,7 @@
 <?php
 
 // Protocol Buffers - Google's data interchange format
-// Copyright 2008 Google Inc.  All rights reserved.
+// Copyright 2017 Google Inc.  All rights reserved.
 // https://developers.google.com/protocol-buffers/
 //
 // Redistribution and use in source and binary forms, with or without
@@ -30,34 +30,47 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-namespace Google\Protobuf\Internal;
+namespace Google\Protobuf;
 
-use Google\Protobuf\Internal\EnumDescriptor;
-use Google\Protobuf\EnumValueDescriptor;
-
-class EnumBuilderContext
+class DescriptorPool
 {
+    private static $pool;
 
-    private $descriptor;
-    private $pool;
+    private $internal_pool;
 
-    public function __construct($full_name, $klass, $pool)
+    /**
+     * @return DescriptorPool
+     */
+    public static function getGeneratedPool()
     {
-        $this->descriptor = new EnumDescriptor();
-        $this->descriptor->setFullName($full_name);
-        $this->descriptor->setClass($klass);
-        $this->pool = $pool;
+        if (!isset(self::$pool)) {
+            self::$pool = new DescriptorPool(\Google\Protobuf\Internal\DescriptorPool::getGeneratedPool());
+        }
+        return self::$pool;
     }
 
-    public function value($name, $number)
+    private function __construct($internal_pool)
     {
-        $value = new EnumValueDescriptor($name, $number);
-        $this->descriptor->addValue($number, $value);
-        return $this;
+        $this->internal_pool = $internal_pool;
     }
 
-    public function finalizeToPool()
+    /**
+     * @param string $className A fully qualified protobuf class name
+     * @return Descriptor
+     */
+    public function getDescriptorByClassName($className)
     {
-        $this->pool->addEnumDescriptor($this->descriptor);
+        $desc = $this->internal_pool->getDescriptorByClassName($className);
+        return is_null($desc) ? null : $desc->getPublicDescriptor();
+    }
+
+    /**
+     * @param string $className A fully qualified protobuf class name
+     * @return EnumDescriptor
+     */
+    public function getEnumDescriptorByClassName($className)
+    {
+        $desc = $this->internal_pool->getEnumDescriptorByClassName($className);
+        return is_null($desc) ? null : $desc->getPublicDescriptor();
     }
 }

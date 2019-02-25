@@ -32,32 +32,58 @@
 
 namespace Google\Protobuf\Internal;
 
-use Google\Protobuf\Internal\EnumDescriptor;
-use Google\Protobuf\EnumValueDescriptor;
-
-class EnumBuilderContext
+class FileDescriptor
 {
 
-    private $descriptor;
-    private $pool;
+    private $package;
+    private $message_type = [];
+    private $enum_type = [];
 
-    public function __construct($full_name, $klass, $pool)
+    public function setPackage($package)
     {
-        $this->descriptor = new EnumDescriptor();
-        $this->descriptor->setFullName($full_name);
-        $this->descriptor->setClass($klass);
-        $this->pool = $pool;
+        $this->package = $package;
     }
 
-    public function value($name, $number)
+    public function getPackage()
     {
-        $value = new EnumValueDescriptor($name, $number);
-        $this->descriptor->addValue($number, $value);
-        return $this;
+        return $this->package;
     }
 
-    public function finalizeToPool()
+    public function getMessageType()
     {
-        $this->pool->addEnumDescriptor($this->descriptor);
+        return $this->message_type;
+    }
+
+    public function addMessageType($desc)
+    {
+        $this->message_type[] = $desc;
+    }
+
+    public function getEnumType()
+    {
+        return $this->enum_type;
+    }
+
+    public function addEnumType($desc)
+    {
+        $this->enum_type[]= $desc;
+    }
+
+    public static function buildFromProto($proto)
+    {
+        $file = new FileDescriptor();
+        $file->setPackage($proto->getPackage());
+        foreach ($proto->getMessageType() as $message_proto) {
+            $file->addMessageType(Descriptor::buildFromProto(
+                $message_proto, $proto, ""));
+        }
+        foreach ($proto->getEnumType() as $enum_proto) {
+            $file->addEnumType(
+                EnumDescriptor::buildFromProto(
+                    $enum_proto,
+                    $proto,
+                    ""));
+        }
+        return $file;
     }
 }

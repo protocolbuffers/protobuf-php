@@ -30,34 +30,89 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+/**
+ * RepeatedField and RepeatedFieldIter are used by generated protocol message
+ * classes to manipulate repeated fields.
+ */
+
 namespace Google\Protobuf\Internal;
 
-use Google\Protobuf\Internal\EnumDescriptor;
-use Google\Protobuf\EnumValueDescriptor;
-
-class EnumBuilderContext
+/**
+ * RepeatedFieldIter is used to iterate RepeatedField. It is also need for the
+ * foreach syntax.
+ */
+class RepeatedFieldIter implements \Iterator
 {
 
-    private $descriptor;
-    private $pool;
+    /**
+     * @ignore
+     */
+    private $position;
+    /**
+     * @ignore
+     */
+    private $container;
 
-    public function __construct($full_name, $klass, $pool)
+    /**
+     * Create iterator instance for RepeatedField.
+     *
+     * @param RepeatedField The RepeatedField instance for which this iterator
+     * is created.
+     * @ignore
+     */
+    public function __construct($container)
     {
-        $this->descriptor = new EnumDescriptor();
-        $this->descriptor->setFullName($full_name);
-        $this->descriptor->setClass($klass);
-        $this->pool = $pool;
+        $this->position = 0;
+        $this->container = $container;
     }
 
-    public function value($name, $number)
+    /**
+     * Reset the status of the iterator
+     *
+     * @return void
+     */
+    public function rewind()
     {
-        $value = new EnumValueDescriptor($name, $number);
-        $this->descriptor->addValue($number, $value);
-        return $this;
+        $this->position = 0;
     }
 
-    public function finalizeToPool()
+    /**
+     * Return the element at the current position.
+     *
+     * @return object The element at the current position.
+     */
+    public function current()
     {
-        $this->pool->addEnumDescriptor($this->descriptor);
+        return $this->container[$this->position];
+    }
+
+    /**
+     * Return the current position.
+     *
+     * @return integer The current position.
+     */
+    public function key()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Move to the next position.
+     *
+     * @return void
+     */
+    public function next()
+    {
+        ++$this->position;
+    }
+
+    /**
+     * Check whether there are more elements to iterate.
+     *
+     * @return bool True if there are more elements to iterate.
+     */
+    public function valid()
+    {
+        return isset($this->container[$this->position]);
     }
 }

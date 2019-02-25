@@ -32,32 +32,47 @@
 
 namespace Google\Protobuf\Internal;
 
-use Google\Protobuf\Internal\EnumDescriptor;
-use Google\Protobuf\EnumValueDescriptor;
-
-class EnumBuilderContext
+class OneofDescriptor
 {
+    use HasPublicDescriptorTrait;
 
-    private $descriptor;
-    private $pool;
+    private $name;
+    private $fields;
 
-    public function __construct($full_name, $klass, $pool)
+    public function __construct()
     {
-        $this->descriptor = new EnumDescriptor();
-        $this->descriptor->setFullName($full_name);
-        $this->descriptor->setClass($klass);
-        $this->pool = $pool;
+        $this->public_desc = new \Google\Protobuf\OneofDescriptor($this);
     }
 
-    public function value($name, $number)
+    public function setName($name)
     {
-        $value = new EnumValueDescriptor($name, $number);
-        $this->descriptor->addValue($number, $value);
-        return $this;
+        $this->name = $name;
     }
 
-    public function finalizeToPool()
+    public function getName()
     {
-        $this->pool->addEnumDescriptor($this->descriptor);
+        return $this->name;
+    }
+
+    public function addField(FieldDescriptor $field)
+    {
+        $this->fields[] = $field;
+    }
+
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    public static function buildFromProto($oneof_proto, $desc, $index)
+    {
+        $oneof = new OneofDescriptor();
+        $oneof->setName($oneof_proto->getName());
+        foreach ($desc->getField() as $field) {
+            if ($field->getOneofIndex() == $index) {
+                $oneof->addField($field);
+            }
+        }
+        return $oneof;
     }
 }

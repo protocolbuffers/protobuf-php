@@ -32,32 +32,12 @@
 
 namespace Google\Protobuf\Internal;
 
-use Google\Protobuf\Internal\EnumDescriptor;
-use Google\Protobuf\EnumValueDescriptor;
-
-class EnumBuilderContext
+class GPBWireType
 {
-
-    private $descriptor;
-    private $pool;
-
-    public function __construct($full_name, $klass, $pool)
-    {
-        $this->descriptor = new EnumDescriptor();
-        $this->descriptor->setFullName($full_name);
-        $this->descriptor->setClass($klass);
-        $this->pool = $pool;
-    }
-
-    public function value($name, $number)
-    {
-        $value = new EnumValueDescriptor($name, $number);
-        $this->descriptor->addValue($number, $value);
-        return $this;
-    }
-
-    public function finalizeToPool()
-    {
-        $this->pool->addEnumDescriptor($this->descriptor);
-    }
+    const VARINT           = 0;
+    const FIXED64          = 1;
+    const LENGTH_DELIMITED = 2;
+    const START_GROUP      = 3;
+    const END_GROUP        = 4;
+    const FIXED32          = 5;
 }
