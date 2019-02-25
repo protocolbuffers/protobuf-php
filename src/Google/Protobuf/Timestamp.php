@@ -89,9 +89,26 @@ class Timestamp extends \Google\Protobuf\Internal\Message
      */
     private $nanos = 0;
 
-    public function __construct() {
+    /**
+     * Constructor.
+     *
+     * @param array $data {
+     *     Optional. Data for populating the Message object.
+     *
+     *     @type int|string $seconds
+     *           Represents seconds of UTC time since Unix epoch
+     *           1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
+     *           9999-12-31T23:59:59Z inclusive.
+     *     @type int $nanos
+     *           Non-negative fractions of a second at nanosecond resolution. Negative
+     *           second values with fractions must still have non-negative nanos values
+     *           that count forward in time. Must be from 0 to 999,999,999
+     *           inclusive.
+     * }
+     */
+    public function __construct($data = NULL) {
         \GPBMetadata\Google\Protobuf\Timestamp::initOnce();
-        parent::__construct();
+        parent::__construct($data);
     }
 
     /**
@@ -156,17 +173,13 @@ class Timestamp extends \Google\Protobuf\Internal\Message
         return $this;
     }
 
-    /**
+    /*
      * Converts PHP DateTime to Timestamp.
      *
-     * @param DateTime $datetime
+     * @param \DateTime $datetime
      */
-    public function fromDateTime($datetime)
+    public function fromDateTime(\DateTime $datetime)
     {
-        if (get_class($datetime) !== \DateTime::class) {
-            trigger_error("Given parameter is not a DateTime.",
-                          E_USER_ERROR);
-        }
         $this->seconds = $datetime->format('U');
         $this->nanos = 0;
     }
@@ -174,7 +187,7 @@ class Timestamp extends \Google\Protobuf\Internal\Message
     /**
      * Converts Timestamp to PHP DateTime. Nano second is ignored.
      *
-     * @return DateTime $datetime
+     * @return \DateTime $datetime
      */
     public function toDateTime()
     {
