@@ -28,19 +28,9 @@ class OneofDescriptorProto extends \Google\Protobuf\Internal\Message
     private $options = null;
     private $has_options = false;
 
-    /**
-     * Constructor.
-     *
-     * @param array $data {
-     *     Optional. Data for populating the Message object.
-     *
-     *     @type string $name
-     *     @type \Google\Protobuf\Internal\OneofOptions $options
-     * }
-     */
-    public function __construct($data = NULL) {
+    public function __construct() {
         \GPBMetadata\Google\Protobuf\Internal\Descriptor::initOnce();
-        parent::__construct($data);
+        parent::__construct();
     }
 
     /**

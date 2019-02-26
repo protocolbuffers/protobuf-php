@@ -46,27 +46,9 @@ class Enum extends \Google\Protobuf\Internal\Message
      */
     private $syntax = 0;
 
-    /**
-     * Constructor.
-     *
-     * @param array $data {
-     *     Optional. Data for populating the Message object.
-     *
-     *     @type string $name
-     *           Enum type name.
-     *     @type \Google\Protobuf\EnumValue[]|\Google\Protobuf\Internal\RepeatedField $enumvalue
-     *           Enum value definitions.
-     *     @type \Google\Protobuf\Option[]|\Google\Protobuf\Internal\RepeatedField $options
-     *           Protocol buffer options.
-     *     @type \Google\Protobuf\SourceContext $source_context
-     *           The source context.
-     *     @type int $syntax
-     *           The source syntax.
-     * }
-     */
-    public function __construct($data = NULL) {
+    public function __construct() {
         \GPBMetadata\Google\Protobuf\Type::initOnce();
-        parent::__construct($data);
+        parent::__construct();
     }
 
     /**

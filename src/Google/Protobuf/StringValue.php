@@ -23,19 +23,9 @@ class StringValue extends \Google\Protobuf\Internal\Message
      */
     private $value = '';
 
-    /**
-     * Constructor.
-     *
-     * @param array $data {
-     *     Optional. Data for populating the Message object.
-     *
-     *     @type string $value
-     *           The string value.
-     * }
-     */
-    public function __construct($data = NULL) {
+    public function __construct() {
         \GPBMetadata\Google\Protobuf\Wrappers::initOnce();
-        parent::__construct($data);
+        parent::__construct();
     }
 
     /**

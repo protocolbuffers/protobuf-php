@@ -9,7 +9,7 @@ namespace Google\Protobuf;
  * `Value` type union.
  *  The JSON representation for `NullValue` is JSON `null`.
  *
- * Protobuf type <code>google.protobuf.NullValue</code>
+ * Protobuf enum <code>Google\Protobuf\NullValue</code>
  */
 class NullValue
 {

@@ -34,23 +34,9 @@ class EnumValue extends \Google\Protobuf\Internal\Message
      */
     private $options;
 
-    /**
-     * Constructor.
-     *
-     * @param array $data {
-     *     Optional. Data for populating the Message object.
-     *
-     *     @type string $name
-     *           Enum value name.
-     *     @type int $number
-     *           Enum value number.
-     *     @type \Google\Protobuf\Option[]|\Google\Protobuf\Internal\RepeatedField $options
-     *           Protocol buffer options.
-     * }
-     */
-    public function __construct($data = NULL) {
+    public function __construct() {
         \GPBMetadata\Google\Protobuf\Type::initOnce();
-        parent::__construct($data);
+        parent::__construct();
     }
 
     /**

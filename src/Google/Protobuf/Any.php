@@ -5,9 +5,9 @@
 namespace Google\Protobuf;
 
 use Google\Protobuf\Internal\GPBType;
+use Google\Protobuf\Internal\GPBUtil;
 use Google\Protobuf\Internal\Message;
 use Google\Protobuf\Internal\RepeatedField;
-use Google\Protobuf\Internal\GPBUtil;
 
 /**
  * `Any` contains an arbitrary serialized protocol buffer message along with a
@@ -37,14 +37,6 @@ use Google\Protobuf\Internal\GPBUtil;
  *     if any.Is(Foo.DESCRIPTOR):
  *       any.Unpack(foo)
  *       ...
- *  Example 4: Pack and unpack a message in Go
- *      foo := &pb.Foo{...}
- *      any, err := ptypes.MarshalAny(foo)
- *      ...
- *      foo := &pb.Foo{}
- *      if err := ptypes.UnmarshalAny(any, foo); err != nil {
- *        ...
- *      }
  * The pack methods provided by protobuf library will by default use
  * 'type.googleapis.com/full.type.name' as the type URL and the unpack
  * methods only use the fully qualified type name after the last '/'
@@ -79,16 +71,15 @@ use Google\Protobuf\Internal\GPBUtil;
 class Any extends \Google\Protobuf\Internal\Message
 {
     /**
-     * A URL/resource name that uniquely identifies the type of the serialized
-     * protocol buffer message. The last segment of the URL's path must represent
-     * the fully qualified name of the type (as in
-     * `path/google.protobuf.Duration`). The name should be in a canonical form
-     * (e.g., leading "." is not accepted).
-     * In practice, teams usually precompile into the binary all types that they
-     * expect it to use in the context of Any. However, for URLs which use the
-     * scheme `http`, `https`, or no scheme, one can optionally set up a type
-     * server that maps type URLs to message definitions as follows:
+     * A URL/resource name whose content describes the type of the
+     * serialized protocol buffer message.
+     * For URLs which use the scheme `http`, `https`, or no scheme, the
+     * following restrictions and interpretations apply:
      * * If no scheme is provided, `https` is assumed.
+     * * The last segment of the URL's path must represent the fully
+     *   qualified name of the type (as in `path/google.protobuf.Duration`).
+     *   The name should be in a canonical form (e.g., leading "." is
+     *   not accepted).
      * * An HTTP GET on the URL must yield a [google.protobuf.Type][]
      *   value in binary format, or produce an error.
      * * Applications are allowed to cache lookup results based on the
@@ -96,9 +87,6 @@ class Any extends \Google\Protobuf\Internal\Message
      *   lookup. Therefore, binary compatibility needs to be preserved
      *   on changes to types. (Use versioned type names to manage
      *   breaking changes.)
-     * Note: this functionality is not currently available in the official
-     * protobuf release, and it is not used for type URLs beginning with
-     * type.googleapis.com.
      * Schemes other than `http`, `https` (or the empty scheme) might be
      * used with implementation specific semantics.
      *
@@ -114,55 +102,21 @@ class Any extends \Google\Protobuf\Internal\Message
 
     const TYPE_URL_PREFIX = 'type.googleapis.com/';
 
-    /**
-     * Constructor.
-     *
-     * @param array $data {
-     *     Optional. Data for populating the Message object.
-     *
-     *     @type string $type_url
-     *           A URL/resource name that uniquely identifies the type of the serialized
-     *           protocol buffer message. The last segment of the URL's path must represent
-     *           the fully qualified name of the type (as in
-     *           `path/google.protobuf.Duration`). The name should be in a canonical form
-     *           (e.g., leading "." is not accepted).
-     *           In practice, teams usually precompile into the binary all types that they
-     *           expect it to use in the context of Any. However, for URLs which use the
-     *           scheme `http`, `https`, or no scheme, one can optionally set up a type
-     *           server that maps type URLs to message definitions as follows:
-     *           * If no scheme is provided, `https` is assumed.
-     *           * An HTTP GET on the URL must yield a [google.protobuf.Type][]
-     *             value in binary format, or produce an error.
-     *           * Applications are allowed to cache lookup results based on the
-     *             URL, or have them precompiled into a binary to avoid any
-     *             lookup. Therefore, binary compatibility needs to be preserved
-     *             on changes to types. (Use versioned type names to manage
-     *             breaking changes.)
-     *           Note: this functionality is not currently available in the official
-     *           protobuf release, and it is not used for type URLs beginning with
-     *           type.googleapis.com.
-     *           Schemes other than `http`, `https` (or the empty scheme) might be
-     *           used with implementation specific semantics.
-     *     @type string $value
-     *           Must be a valid serialized protocol buffer of the above specified type.
-     * }
-     */
-    public function __construct($data = NULL) {
+    public function __construct() {
         \GPBMetadata\Google\Protobuf\Any::initOnce();
-        parent::__construct($data);
+        parent::__construct();
     }
 
     /**
-     * A URL/resource name that uniquely identifies the type of the serialized
-     * protocol buffer message. The last segment of the URL's path must represent
-     * the fully qualified name of the type (as in
-     * `path/google.protobuf.Duration`). The name should be in a canonical form
-     * (e.g., leading "." is not accepted).
-     * In practice, teams usually precompile into the binary all types that they
-     * expect it to use in the context of Any. However, for URLs which use the
-     * scheme `http`, `https`, or no scheme, one can optionally set up a type
-     * server that maps type URLs to message definitions as follows:
+     * A URL/resource name whose content describes the type of the
+     * serialized protocol buffer message.
+     * For URLs which use the scheme `http`, `https`, or no scheme, the
+     * following restrictions and interpretations apply:
      * * If no scheme is provided, `https` is assumed.
+     * * The last segment of the URL's path must represent the fully
+     *   qualified name of the type (as in `path/google.protobuf.Duration`).
+     *   The name should be in a canonical form (e.g., leading "." is
+     *   not accepted).
      * * An HTTP GET on the URL must yield a [google.protobuf.Type][]
      *   value in binary format, or produce an error.
      * * Applications are allowed to cache lookup results based on the
@@ -170,9 +124,6 @@ class Any extends \Google\Protobuf\Internal\Message
      *   lookup. Therefore, binary compatibility needs to be preserved
      *   on changes to types. (Use versioned type names to manage
      *   breaking changes.)
-     * Note: this functionality is not currently available in the official
-     * protobuf release, and it is not used for type URLs beginning with
-     * type.googleapis.com.
      * Schemes other than `http`, `https` (or the empty scheme) might be
      * used with implementation specific semantics.
      *
@@ -185,16 +136,15 @@ class Any extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * A URL/resource name that uniquely identifies the type of the serialized
-     * protocol buffer message. The last segment of the URL's path must represent
-     * the fully qualified name of the type (as in
-     * `path/google.protobuf.Duration`). The name should be in a canonical form
-     * (e.g., leading "." is not accepted).
-     * In practice, teams usually precompile into the binary all types that they
-     * expect it to use in the context of Any. However, for URLs which use the
-     * scheme `http`, `https`, or no scheme, one can optionally set up a type
-     * server that maps type URLs to message definitions as follows:
+     * A URL/resource name whose content describes the type of the
+     * serialized protocol buffer message.
+     * For URLs which use the scheme `http`, `https`, or no scheme, the
+     * following restrictions and interpretations apply:
      * * If no scheme is provided, `https` is assumed.
+     * * The last segment of the URL's path must represent the fully
+     *   qualified name of the type (as in `path/google.protobuf.Duration`).
+     *   The name should be in a canonical form (e.g., leading "." is
+     *   not accepted).
      * * An HTTP GET on the URL must yield a [google.protobuf.Type][]
      *   value in binary format, or produce an error.
      * * Applications are allowed to cache lookup results based on the
@@ -202,9 +152,6 @@ class Any extends \Google\Protobuf\Internal\Message
      *   lookup. Therefore, binary compatibility needs to be preserved
      *   on changes to types. (Use versioned type names to manage
      *   breaking changes.)
-     * Note: this functionality is not currently available in the official
-     * protobuf release, and it is not used for type URLs beginning with
-     * type.googleapis.com.
      * Schemes other than `http`, `https` (or the empty scheme) might be
      * used with implementation specific semantics.
      *
@@ -322,4 +269,3 @@ class Any extends \Google\Protobuf\Internal\Message
         return $this->type_url === $type_url;
     }
 }
-

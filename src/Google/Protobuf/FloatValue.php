@@ -23,19 +23,9 @@ class FloatValue extends \Google\Protobuf\Internal\Message
      */
     private $value = 0.0;
 
-    /**
-     * Constructor.
-     *
-     * @param array $data {
-     *     Optional. Data for populating the Message object.
-     *
-     *     @type float $value
-     *           The float value.
-     * }
-     */
-    public function __construct($data = NULL) {
+    public function __construct() {
         \GPBMetadata\Google\Protobuf\Wrappers::initOnce();
-        parent::__construct($data);
+        parent::__construct();
     }
 
     /**

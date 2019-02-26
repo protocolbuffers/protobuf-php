@@ -24,20 +24,9 @@ class SourceContext extends \Google\Protobuf\Internal\Message
      */
     private $file_name = '';
 
-    /**
-     * Constructor.
-     *
-     * @param array $data {
-     *     Optional. Data for populating the Message object.
-     *
-     *     @type string $file_name
-     *           The path-qualified name of the .proto file that contained the associated
-     *           protobuf element.  For example: `"google/protobuf/source_context.proto"`.
-     * }
-     */
-    public function __construct($data = NULL) {
+    public function __construct() {
         \GPBMetadata\Google\Protobuf\SourceContext::initOnce();
-        parent::__construct($data);
+        parent::__construct();
     }
 
     /**

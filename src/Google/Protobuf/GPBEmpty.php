@@ -22,17 +22,9 @@ use Google\Protobuf\Internal\GPBUtil;
 class GPBEmpty extends \Google\Protobuf\Internal\Message
 {
 
-    /**
-     * Constructor.
-     *
-     * @param array $data {
-     *     Optional. Data for populating the Message object.
-     *
-     * }
-     */
-    public function __construct($data = NULL) {
+    public function __construct() {
         \GPBMetadata\Google\Protobuf\GPBEmpty::initOnce();
-        parent::__construct($data);
+        parent::__construct();
     }
 
 }

@@ -4,13 +4,36 @@
 
 namespace Google\Protobuf;
 
-if (false) {
+/**
+ * Whether a field is optional, required, or repeated.
+ *
+ * Protobuf enum <code>Google\Protobuf\Field\Cardinality</code>
+ */
+class Field_Cardinality
+{
     /**
-     * This class is deprecated. Use Google\Protobuf\Field\Cardinality instead.
-     * @deprecated
+     * For fields with unknown cardinality.
+     *
+     * Generated from protobuf enum <code>CARDINALITY_UNKNOWN = 0;</code>
      */
-    class Field_Cardinality {}
+    const CARDINALITY_UNKNOWN = 0;
+    /**
+     * For optional fields.
+     *
+     * Generated from protobuf enum <code>CARDINALITY_OPTIONAL = 1;</code>
+     */
+    const CARDINALITY_OPTIONAL = 1;
+    /**
+     * For required fields. Proto2 syntax only.
+     *
+     * Generated from protobuf enum <code>CARDINALITY_REQUIRED = 2;</code>
+     */
+    const CARDINALITY_REQUIRED = 2;
+    /**
+     * For repeated fields.
+     *
+     * Generated from protobuf enum <code>CARDINALITY_REPEATED = 3;</code>
+     */
+    const CARDINALITY_REPEATED = 3;
 }
-class_exists(Field\Cardinality::class);
-@trigger_error('Google\Protobuf\Field_Cardinality is deprecated and will be removed in the next major release. Use Google\Protobuf\Field\Cardinality instead', E_USER_DEPRECATED);
 
