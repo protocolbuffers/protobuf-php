@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * Describes the relationship between generated code and its original source
@@ -18,7 +17,7 @@ use Google\Protobuf\Internal\GPBWrapperUtils;
  *
  * Generated from protobuf message <code>google.protobuf.GeneratedCodeInfo</code>
  */
-class GeneratedCodeInfo extends \Google\Protobuf\Internal\Message
+final class GeneratedCodeInfo extends \Google\Protobuf\Internal\Message
 {
     /**
      * An Annotation connects some span of text in generated code to an element

@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * The name of the uninterpreted option.  Each string represents a segment in
@@ -20,7 +19,7 @@ use Google\Protobuf\Internal\GPBWrapperUtils;
  *
  * Generated from protobuf message <code>google.protobuf.UninterpretedOption.NamePart</code>
  */
-class NamePart extends \Google\Protobuf\Internal\Message
+final class NamePart extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>required string name_part = 1;</code>

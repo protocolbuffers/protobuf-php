@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * The protocol compiler can output a FileDescriptorSet containing the .proto
@@ -17,7 +16,7 @@ use Google\Protobuf\Internal\GPBWrapperUtils;
  *
  * Generated from protobuf message <code>google.protobuf.FileDescriptorSet</code>
  */
-class FileDescriptorSet extends \Google\Protobuf\Internal\Message
+final class FileDescriptorSet extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>repeated .google.protobuf.FileDescriptorProto file = 1;</code>
