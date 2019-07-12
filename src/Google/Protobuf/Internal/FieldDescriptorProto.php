@@ -9,14 +9,13 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * Describes a field within a message.
  *
  * Generated from protobuf message <code>google.protobuf.FieldDescriptorProto</code>
  */
-class FieldDescriptorProto extends \Google\Protobuf\Internal\Message
+final class FieldDescriptorProto extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>optional string name = 1;</code>

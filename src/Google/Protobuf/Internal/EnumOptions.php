@@ -9,12 +9,11 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * Generated from protobuf message <code>google.protobuf.EnumOptions</code>
  */
-class EnumOptions extends \Google\Protobuf\Internal\Message
+final class EnumOptions extends \Google\Protobuf\Internal\Message
 {
     /**
      * Set this option to true to allow mapping different tag names to the same
