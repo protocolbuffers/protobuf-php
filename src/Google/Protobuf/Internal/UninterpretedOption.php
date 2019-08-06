@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * A message representing a option the parser does not recognize. This only
@@ -21,7 +20,7 @@ use Google\Protobuf\Internal\GPBWrapperUtils;
  *
  * Generated from protobuf message <code>google.protobuf.UninterpretedOption</code>
  */
-class UninterpretedOption extends \Google\Protobuf\Internal\Message
+final class UninterpretedOption extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>repeated .google.protobuf.UninterpretedOption.NamePart name = 2;</code>
