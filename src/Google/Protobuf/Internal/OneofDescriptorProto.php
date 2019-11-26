@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * Describes a oneof.
@@ -21,12 +20,12 @@ class OneofDescriptorProto extends \Google\Protobuf\Internal\Message
     /**
      * Generated from protobuf field <code>optional string name = 1;</code>
      */
-    private $name = '';
+    protected $name = '';
     private $has_name = false;
     /**
      * Generated from protobuf field <code>optional .google.protobuf.OneofOptions options = 2;</code>
      */
-    private $options = null;
+    protected $options = null;
     private $has_options = false;
 
     /**
