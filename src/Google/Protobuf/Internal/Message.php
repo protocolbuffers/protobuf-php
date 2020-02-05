@@ -62,7 +62,6 @@ class Message
      */
     private $desc;
     private $unknown = "";
-    private static $keepDefaultValues = false;
 
     /**
      * @ignore
@@ -84,10 +83,6 @@ class Message
                 );
             }
         }
-    }
-
-    public static function setKeepDefaultValues($keepDefaultValues) {
-        self::$keepDefaultValues = (bool) $keepDefaultValues;
     }
 
     /**
@@ -1510,7 +1505,7 @@ class Message
             return $this->$oneof_name->getNumber() === $field->getNumber();
         }
 
-        if (static::$keepDefaultValues) {
+        if (GPBWire::getKeepDefaultValues()) {
             return true;
         }
 
@@ -1780,7 +1775,7 @@ class Message
             $getter = $field->getGetter();
             $values = $this->$getter();
             $count = count($values);
-            if (static::$keepDefaultValues || $count !== 0) {
+            if (GPBWire::getKeepDefaultValues() || $count !== 0) {
                 if (!GPBUtil::hasSpecialJsonMapping($this)) {
                     $size += 3;                              // size for "\"\":".
                     $size += strlen($field->getJsonName());  // size for field name
@@ -1816,7 +1811,7 @@ class Message
             $getter = $field->getGetter();
             $values = $this->$getter();
             $count = count($values);
-            if (static::$keepDefaultValues || $count !== 0) {
+            if (GPBWire::getKeepDefaultValues() || $count !== 0) {
                 if (!GPBUtil::hasSpecialJsonMapping($this)) {
                     $size += 3;                              // size for "\"\":".
                     $size += strlen($field->getJsonName());  // size for field name
