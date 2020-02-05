@@ -1504,13 +1504,14 @@ class Message
             $oneof_name = $oneof->getName();
             return $this->$oneof_name->getNumber() === $field->getNumber();
         }
-
-        if (GPBWire::getKeepDefaultValues()) {
-            return true;
-        }
-
+        
         $getter = $field->getGetter();
         $values = $this->$getter();
+
+        if (GPBWire::getKeepDefaultValues() && $values !== null) {
+            return true;
+        }
+       
         if ($field->isMap()) {
             return count($values) !== 0;
         } elseif ($field->isRepeated()) {
