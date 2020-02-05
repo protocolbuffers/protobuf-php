@@ -62,6 +62,7 @@ class Message
      */
     private $desc;
     private $unknown = "";
+    private static $keepDefaultValues = false;
 
     /**
      * @ignore
@@ -83,6 +84,10 @@ class Message
                 );
             }
         }
+    }
+
+    public static function setKeepDefaultValues($keepDefaultValues) {
+        self::$keepDefaultValues = (bool) $keepDefaultValues;
     }
 
     /**
@@ -149,7 +154,7 @@ class Message
                 $oneof_name = $oneof->getName();
                 $this->$oneof_name = new OneofField($oneof);
             } else if ($field->getLabel() === GPBLabel::OPTIONAL &&
-                       PHP_INT_SIZE == 4) {
+                PHP_INT_SIZE == 4) {
                 switch ($field->getType()) {
                     case GPBType::INT64:
                     case GPBType::UINT64:
@@ -1505,6 +1510,10 @@ class Message
             return $this->$oneof_name->getNumber() === $field->getNumber();
         }
 
+        if (static::$keepDefaultValues) {
+            return true;
+        }
+
         $getter = $field->getGetter();
         $values = $this->$getter();
         if ($field->isMap()) {
@@ -1684,7 +1693,8 @@ class Message
                 $size += 2;  // size for \"\"
                 break;
             case GPBType::MESSAGE:
-                $size += $value->jsonByteSize();
+                // 4 for null
+                $size += $value !== null ? $value->jsonByteSize() : 4;
                 break;
 #             case GPBType::GROUP:
 #                 // TODO(teboring): Add support.
@@ -1770,7 +1780,7 @@ class Message
             $getter = $field->getGetter();
             $values = $this->$getter();
             $count = count($values);
-            if ($count !== 0) {
+            if (static::$keepDefaultValues || $count !== 0) {
                 if (!GPBUtil::hasSpecialJsonMapping($this)) {
                     $size += 3;                              // size for "\"\":".
                     $size += strlen($field->getJsonName());  // size for field name
@@ -1806,13 +1816,13 @@ class Message
             $getter = $field->getGetter();
             $values = $this->$getter();
             $count = count($values);
-            if ($count !== 0) {
+            if (static::$keepDefaultValues || $count !== 0) {
                 if (!GPBUtil::hasSpecialJsonMapping($this)) {
                     $size += 3;                              // size for "\"\":".
                     $size += strlen($field->getJsonName());  // size for field name
                 }
                 $size += 2;  // size for "[]".
-                $size += $count - 1;                     // size for commas
+                $size += max($count - 1, 0);                     // size for commas
                 $getter = $field->getGetter();
                 foreach ($values as $value) {
                     $size += $this->fieldDataOnlyJsonByteSize($field, $value);
