@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * Generated from protobuf message <code>google.protobuf.MessageOptions</code>
@@ -35,7 +34,7 @@ class MessageOptions extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional bool message_set_wire_format = 1 [default = false];</code>
      */
-    private $message_set_wire_format = false;
+    protected $message_set_wire_format = false;
     private $has_message_set_wire_format = false;
     /**
      * Disables the generation of the standard "descriptor()" accessor, which can
@@ -44,7 +43,7 @@ class MessageOptions extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional bool no_standard_descriptor_accessor = 2 [default = false];</code>
      */
-    private $no_standard_descriptor_accessor = false;
+    protected $no_standard_descriptor_accessor = false;
     private $has_no_standard_descriptor_accessor = false;
     /**
      * Is this message deprecated?
@@ -54,7 +53,7 @@ class MessageOptions extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional bool deprecated = 3 [default = false];</code>
      */
-    private $deprecated = false;
+    protected $deprecated = false;
     private $has_deprecated = false;
     /**
      * Whether the message is an automatically generated map entry type for the
@@ -70,7 +69,7 @@ class MessageOptions extends \Google\Protobuf\Internal\Message
      *     repeated MapFieldEntry map_field = 1;
      * Implementations may choose not to generate the map_entry=true message, but
      * use a native map in the target language to hold the keys and values.
-     * The reflection APIs in such implementions still need to work as
+     * The reflection APIs in such implementations still need to work as
      * if the field is a repeated message field.
      * NOTE: Do not set the option in .proto files. Always use the maps syntax
      * instead. The option should only be implicitly set by the proto compiler
@@ -78,7 +77,7 @@ class MessageOptions extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional bool map_entry = 7;</code>
      */
-    private $map_entry = false;
+    protected $map_entry = false;
     private $has_map_entry = false;
     /**
      * The parser stores options it doesn't recognize here. See above.
@@ -133,7 +132,7 @@ class MessageOptions extends \Google\Protobuf\Internal\Message
      *               repeated MapFieldEntry map_field = 1;
      *           Implementations may choose not to generate the map_entry=true message, but
      *           use a native map in the target language to hold the keys and values.
-     *           The reflection APIs in such implementions still need to work as
+     *           The reflection APIs in such implementations still need to work as
      *           if the field is a repeated message field.
      *           NOTE: Do not set the option in .proto files. Always use the maps syntax
      *           instead. The option should only be implicitly set by the proto compiler
@@ -295,7 +294,7 @@ class MessageOptions extends \Google\Protobuf\Internal\Message
      *     repeated MapFieldEntry map_field = 1;
      * Implementations may choose not to generate the map_entry=true message, but
      * use a native map in the target language to hold the keys and values.
-     * The reflection APIs in such implementions still need to work as
+     * The reflection APIs in such implementations still need to work as
      * if the field is a repeated message field.
      * NOTE: Do not set the option in .proto files. Always use the maps syntax
      * instead. The option should only be implicitly set by the proto compiler
@@ -323,7 +322,7 @@ class MessageOptions extends \Google\Protobuf\Internal\Message
      *     repeated MapFieldEntry map_field = 1;
      * Implementations may choose not to generate the map_entry=true message, but
      * use a native map in the target language to hold the keys and values.
-     * The reflection APIs in such implementions still need to work as
+     * The reflection APIs in such implementations still need to work as
      * if the field is a repeated message field.
      * NOTE: Do not set the option in .proto files. Always use the maps syntax
      * instead. The option should only be implicitly set by the proto compiler
