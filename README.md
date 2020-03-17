@@ -3,7 +3,7 @@ This repository contains only PHP files to support Composer installation. This r
 
 AdditionalFeatures:
 * Keep default values in generated JSON.
-By default protobuf compiler strips all default values. In sime cases it can be needed to keep them. It can be triggered by code below:
+By default protobuf compiler strips all default values. In some cases it can be needed to keep them. It can be triggered by code below:
 ```` 
 GPBWire::setKeepDefaultValues(true);
 ````
