@@ -149,7 +149,7 @@ class Message
                 $oneof_name = $oneof->getName();
                 $this->$oneof_name = new OneofField($oneof);
             } else if ($field->getLabel() === GPBLabel::OPTIONAL &&
-                       PHP_INT_SIZE == 4) {
+                PHP_INT_SIZE == 4) {
                 switch ($field->getType()) {
                     case GPBType::INT64:
                     case GPBType::UINT64:
@@ -172,6 +172,42 @@ class Message
             $setter = $field->getSetter();
             $defaultValue = $this->defaultValue($field);
             $this->$setter($defaultValue);
+        }
+    }
+
+    protected function readWrapperValue($member)
+    {
+        $field = $this->desc->getFieldByName($member);
+        $oneof_index = $field->getOneofIndex();
+        if ($oneof_index === -1) {
+            $wrapper = $this->$member;
+        } else {
+            $wrapper = $this->readOneof($field->getNumber());
+        }
+
+        if (is_null($wrapper)) {
+            return NULL;
+        } else {
+            return $wrapper->getValue();
+        }
+    }
+
+    protected function writeWrapperValue($member, $value)
+    {
+        $field = $this->desc->getFieldByName($member);
+        $wrapped_value = $value;
+        if (!is_null($value)) {
+            $desc = $field->getMessageType();
+            $klass = $desc->getClass();
+            $wrapped_value = new $klass;
+            $wrapped_value->setValue($value);
+        }
+
+        $oneof_index = $field->getOneofIndex();
+        if ($oneof_index === -1) {
+            $this->$member = $wrapped_value;
+        } else {
+            $this->writeOneof($field->getNumber(), $wrapped_value);
         }
     }
 
@@ -204,7 +240,7 @@ class Message
         $oneof_field = $this->$oneof_name;
         $number = $oneof_field->getNumber();
         if ($number == 0) {
-          return "";
+            return "";
         }
         $field = $this->desc->getFieldByNumber($number);
         return $field->getName();
@@ -827,7 +863,7 @@ class Message
                     return $enum_value->getNumber();
                 }
                 throw new GPBDecodeException(
-                        "Enum field only accepts integer or enum value name");
+                    "Enum field only accepts integer or enum value name");
             case GPBType::STRING:
                 if (is_null($value)) {
                     return $this->defaultValue($field);
@@ -894,16 +930,16 @@ class Message
                     return $this->defaultValue($field);
                 }
                 if (!is_numeric($value)) {
-                   throw new GPBDecodeException(
-                       "Invalid data type for int32 field");
+                    throw new GPBDecodeException(
+                        "Invalid data type for int32 field");
                 }
                 if (bccomp($value, "2147483647") > 0) {
-                   throw new GPBDecodeException(
-                       "Int32 too large");
+                    throw new GPBDecodeException(
+                        "Int32 too large");
                 }
                 if (bccomp($value, "-2147483648") < 0) {
-                   throw new GPBDecodeException(
-                       "Int32 too small");
+                    throw new GPBDecodeException(
+                        "Int32 too small");
                 }
                 return $value;
             case GPBType::UINT32:
@@ -912,8 +948,8 @@ class Message
                     return $this->defaultValue($field);
                 }
                 if (!is_numeric($value)) {
-                   throw new GPBDecodeException(
-                       "Invalid data type for uint32 field");
+                    throw new GPBDecodeException(
+                        "Invalid data type for uint32 field");
                 }
                 if (bccomp($value, 4294967295) > 0) {
                     throw new GPBDecodeException(
@@ -927,8 +963,8 @@ class Message
                     return $this->defaultValue($field);
                 }
                 if (!is_numeric($value)) {
-                   throw new GPBDecodeException(
-                       "Invalid data type for int64 field");
+                    throw new GPBDecodeException(
+                        "Invalid data type for int64 field");
                 }
                 if (bccomp($value, "9223372036854775807") > 0) {
                     throw new GPBDecodeException(
@@ -945,8 +981,8 @@ class Message
                     return $this->defaultValue($field);
                 }
                 if (!is_numeric($value)) {
-                   throw new GPBDecodeException(
-                       "Invalid data type for int64 field");
+                    throw new GPBDecodeException(
+                        "Invalid data type for int64 field");
                 }
                 if (bccomp($value, "18446744073709551615") > 0) {
                     throw new GPBDecodeException(
@@ -1032,7 +1068,7 @@ class Message
         } else {
             // Normalize each element in the array.
             foreach ($value as $key => &$elementValue) {
-              self::normalizeToMessageType($elementValue, $class);
+                self::normalizeToMessageType($elementValue, $class);
             }
         }
     }
@@ -1243,11 +1279,11 @@ class Message
         }
         if (is_null($array)) {
             if ($this instanceof \Google\Protobuf\Value) {
-              $this->setNullValue(\Google\Protobuf\NullValue::NULL_VALUE);
-              return;
+                $this->setNullValue(\Google\Protobuf\NullValue::NULL_VALUE);
+                return;
             } else {
-              throw new GPBDecodeException(
-                  "Cannot decode json string: " . $input->getData());
+                throw new GPBDecodeException(
+                    "Cannot decode json string: " . $input->getData());
             }
         }
         try {
@@ -1504,9 +1540,14 @@ class Message
             $oneof_name = $oneof->getName();
             return $this->$oneof_name->getNumber() === $field->getNumber();
         }
-
+        
         $getter = $field->getGetter();
         $values = $this->$getter();
+
+        if (GPBWire::getKeepDefaultValues() && $values !== null) {
+            return true;
+        }
+       
         if ($field->isMap()) {
             return count($values) !== 0;
         } elseif ($field->isRepeated()) {
@@ -1618,7 +1659,7 @@ class Message
                 if ($value < 0) {
                     $value = bcadd($value, "18446744073709551616");
                 }
-                // Intentional fall through.
+            // Intentional fall through.
             case GPBType::SFIXED64:
             case GPBType::INT64:
             case GPBType::SINT64:
@@ -1684,7 +1725,8 @@ class Message
                 $size += 2;  // size for \"\"
                 break;
             case GPBType::MESSAGE:
-                $size += $value->jsonByteSize();
+                // 4 for null
+                $size += $value !== null ? $value->jsonByteSize() : 4;
                 break;
 #             case GPBType::GROUP:
 #                 // TODO(teboring): Add support.
@@ -1770,7 +1812,7 @@ class Message
             $getter = $field->getGetter();
             $values = $this->$getter();
             $count = count($values);
-            if ($count !== 0) {
+            if (GPBWire::getKeepDefaultValues() || $count !== 0) {
                 if (!GPBUtil::hasSpecialJsonMapping($this)) {
                     $size += 3;                              // size for "\"\":".
                     $size += strlen($field->getJsonName());  // size for field name
@@ -1782,16 +1824,16 @@ class Message
                 $key_field = $map_entry->getFieldByNumber(1);
                 $value_field = $map_entry->getFieldByNumber(2);
                 switch ($key_field->getType()) {
-                case GPBType::STRING:
-                case GPBType::SFIXED64:
-                case GPBType::INT64:
-                case GPBType::SINT64:
-                case GPBType::FIXED64:
-                case GPBType::UINT64:
-                    $additional_quote = false;
-                    break;
-                default:
-                    $additional_quote = true;
+                    case GPBType::STRING:
+                    case GPBType::SFIXED64:
+                    case GPBType::INT64:
+                    case GPBType::SINT64:
+                    case GPBType::FIXED64:
+                    case GPBType::UINT64:
+                        $additional_quote = false;
+                        break;
+                    default:
+                        $additional_quote = true;
                 }
                 foreach ($values as $key => $value) {
                     if ($additional_quote) {
@@ -1806,13 +1848,13 @@ class Message
             $getter = $field->getGetter();
             $values = $this->$getter();
             $count = count($values);
-            if ($count !== 0) {
+            if (GPBWire::getKeepDefaultValues() || $count !== 0) {
                 if (!GPBUtil::hasSpecialJsonMapping($this)) {
                     $size += 3;                              // size for "\"\":".
                     $size += strlen($field->getJsonName());  // size for field name
                 }
                 $size += 2;  // size for "[]".
-                $size += $count - 1;                     // size for commas
+                $size += max($count - 1, 0);                     // size for commas
                 $getter = $field->getGetter();
                 foreach ($values as $value) {
                     $size += $this->fieldDataOnlyJsonByteSize($field, $value);
@@ -1936,7 +1978,7 @@ class Message
                 $field_size = $this->fieldJsonByteSize($field);
                 $size += $field_size;
                 if ($field_size != 0) {
-                  $count++;
+                    $count++;
                 }
             }
             // size for comma

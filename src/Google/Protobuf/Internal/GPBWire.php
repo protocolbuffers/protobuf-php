@@ -48,6 +48,16 @@ class GPBWire
     const NORMAL_FORMAT = 1;
     const PACKED_FORMAT = 2;
 
+    private static $keepDefaultValues = false;
+
+    public static function setKeepDefaultValues($keepDefaultValues) {
+        self::$keepDefaultValues = (bool) $keepDefaultValues;
+    }
+
+    public static function getKeepDefaultValues() {
+        return self::$keepDefaultValues;
+    }
+
     public static function getTagFieldNumber($tag)
     {
         return ($tag >> self::TAG_TYPE_BITS) &
