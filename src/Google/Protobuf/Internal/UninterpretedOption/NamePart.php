@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * The name of the uninterpreted option.  Each string represents a segment in
@@ -25,12 +24,12 @@ class NamePart extends \Google\Protobuf\Internal\Message
     /**
      * Generated from protobuf field <code>required string name_part = 1;</code>
      */
-    private $name_part = '';
+    protected $name_part = '';
     private $has_name_part = false;
     /**
      * Generated from protobuf field <code>required bool is_extension = 2;</code>
      */
-    private $is_extension = false;
+    protected $is_extension = false;
     private $has_is_extension = false;
 
     /**
