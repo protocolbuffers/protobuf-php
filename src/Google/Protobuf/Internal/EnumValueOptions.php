@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * Generated from protobuf message <code>google.protobuf.EnumValueOptions</code>
@@ -24,7 +23,7 @@ class EnumValueOptions extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional bool deprecated = 1 [default = false];</code>
      */
-    private $deprecated = false;
+    protected $deprecated = false;
     private $has_deprecated = false;
     /**
      * The parser stores options it doesn't recognize here. See above.
