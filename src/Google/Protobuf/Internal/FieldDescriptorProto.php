@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * Describes a field within a message.
@@ -21,17 +20,17 @@ class FieldDescriptorProto extends \Google\Protobuf\Internal\Message
     /**
      * Generated from protobuf field <code>optional string name = 1;</code>
      */
-    private $name = '';
+    protected $name = '';
     private $has_name = false;
     /**
      * Generated from protobuf field <code>optional int32 number = 3;</code>
      */
-    private $number = 0;
+    protected $number = 0;
     private $has_number = false;
     /**
      * Generated from protobuf field <code>optional .google.protobuf.FieldDescriptorProto.Label label = 4;</code>
      */
-    private $label = 0;
+    protected $label = 0;
     private $has_label = false;
     /**
      * If type_name is set, this need not be set.  If both this and type_name
@@ -39,7 +38,7 @@ class FieldDescriptorProto extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional .google.protobuf.FieldDescriptorProto.Type type = 5;</code>
      */
-    private $type = 0;
+    protected $type = 0;
     private $has_type = false;
     /**
      * For message and enum types, this is the name of the type.  If the name
@@ -50,7 +49,7 @@ class FieldDescriptorProto extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional string type_name = 6;</code>
      */
-    private $type_name = '';
+    protected $type_name = '';
     private $has_type_name = false;
     /**
      * For extensions, this is the name of the type being extended.  It is
@@ -58,7 +57,7 @@ class FieldDescriptorProto extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional string extendee = 2;</code>
      */
-    private $extendee = '';
+    protected $extendee = '';
     private $has_extendee = false;
     /**
      * For numeric types, contains the original text representation of the value.
@@ -69,7 +68,7 @@ class FieldDescriptorProto extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional string default_value = 7;</code>
      */
-    private $default_value = '';
+    protected $default_value = '';
     private $has_default_value = false;
     /**
      * If set, gives the index of a oneof in the containing type's oneof_decl
@@ -77,7 +76,7 @@ class FieldDescriptorProto extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional int32 oneof_index = 9;</code>
      */
-    private $oneof_index = 0;
+    protected $oneof_index = 0;
     private $has_oneof_index = false;
     /**
      * JSON name of this field. The value is set by protocol compiler. If the
@@ -87,13 +86,37 @@ class FieldDescriptorProto extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional string json_name = 10;</code>
      */
-    private $json_name = '';
+    protected $json_name = '';
     private $has_json_name = false;
     /**
      * Generated from protobuf field <code>optional .google.protobuf.FieldOptions options = 8;</code>
      */
-    private $options = null;
+    protected $options = null;
     private $has_options = false;
+    /**
+     * If true, this is a proto3 "optional". When a proto3 field is optional, it
+     * tracks presence regardless of field type.
+     * When proto3_optional is true, this field must be belong to a oneof to
+     * signal to old proto3 clients that presence is tracked for this field. This
+     * oneof is known as a "synthetic" oneof, and this field must be its sole
+     * member (each proto3 optional field gets its own synthetic oneof). Synthetic
+     * oneofs exist in the descriptor only, and do not generate any API. Synthetic
+     * oneofs must be ordered after all "real" oneofs.
+     * For message fields, proto3_optional doesn't create any semantic change,
+     * since non-repeated message fields always track presence. However it still
+     * indicates the semantic detail of whether the user wrote "optional" or not.
+     * This can be useful for round-tripping the .proto file. For consistency we
+     * give message fields a synthetic oneof also, even though it is not required
+     * to track presence. This is especially important because the parser can't
+     * tell if a field is a message or an enum, so it must always create a
+     * synthetic oneof.
+     * Proto2 optional fields do not set this flag, because they already indicate
+     * optional with `LABEL_OPTIONAL`.
+     *
+     * Generated from protobuf field <code>optional bool proto3_optional = 17;</code>
+     */
+    protected $proto3_optional = false;
+    private $has_proto3_optional = false;
 
     /**
      * Constructor.
@@ -131,6 +154,25 @@ class FieldDescriptorProto extends \Google\Protobuf\Internal\Message
      *           will be used. Otherwise, it's deduced from the field's name by converting
      *           it to camelCase.
      *     @type \Google\Protobuf\Internal\FieldOptions $options
+     *     @type bool $proto3_optional
+     *           If true, this is a proto3 "optional". When a proto3 field is optional, it
+     *           tracks presence regardless of field type.
+     *           When proto3_optional is true, this field must be belong to a oneof to
+     *           signal to old proto3 clients that presence is tracked for this field. This
+     *           oneof is known as a "synthetic" oneof, and this field must be its sole
+     *           member (each proto3 optional field gets its own synthetic oneof). Synthetic
+     *           oneofs exist in the descriptor only, and do not generate any API. Synthetic
+     *           oneofs must be ordered after all "real" oneofs.
+     *           For message fields, proto3_optional doesn't create any semantic change,
+     *           since non-repeated message fields always track presence. However it still
+     *           indicates the semantic detail of whether the user wrote "optional" or not.
+     *           This can be useful for round-tripping the .proto file. For consistency we
+     *           give message fields a synthetic oneof also, even though it is not required
+     *           to track presence. This is especially important because the parser can't
+     *           tell if a field is a message or an enum, so it must always create a
+     *           synthetic oneof.
+     *           Proto2 optional fields do not set this flag, because they already indicate
+     *           optional with `LABEL_OPTIONAL`.
      * }
      */
     public function __construct($data = NULL) {
@@ -468,6 +510,72 @@ class FieldDescriptorProto extends \Google\Protobuf\Internal\Message
     public function hasOptions()
     {
         return $this->has_options;
+    }
+
+    /**
+     * If true, this is a proto3 "optional". When a proto3 field is optional, it
+     * tracks presence regardless of field type.
+     * When proto3_optional is true, this field must be belong to a oneof to
+     * signal to old proto3 clients that presence is tracked for this field. This
+     * oneof is known as a "synthetic" oneof, and this field must be its sole
+     * member (each proto3 optional field gets its own synthetic oneof). Synthetic
+     * oneofs exist in the descriptor only, and do not generate any API. Synthetic
+     * oneofs must be ordered after all "real" oneofs.
+     * For message fields, proto3_optional doesn't create any semantic change,
+     * since non-repeated message fields always track presence. However it still
+     * indicates the semantic detail of whether the user wrote "optional" or not.
+     * This can be useful for round-tripping the .proto file. For consistency we
+     * give message fields a synthetic oneof also, even though it is not required
+     * to track presence. This is especially important because the parser can't
+     * tell if a field is a message or an enum, so it must always create a
+     * synthetic oneof.
+     * Proto2 optional fields do not set this flag, because they already indicate
+     * optional with `LABEL_OPTIONAL`.
+     *
+     * Generated from protobuf field <code>optional bool proto3_optional = 17;</code>
+     * @return bool
+     */
+    public function getProto3Optional()
+    {
+        return $this->proto3_optional;
+    }
+
+    /**
+     * If true, this is a proto3 "optional". When a proto3 field is optional, it
+     * tracks presence regardless of field type.
+     * When proto3_optional is true, this field must be belong to a oneof to
+     * signal to old proto3 clients that presence is tracked for this field. This
+     * oneof is known as a "synthetic" oneof, and this field must be its sole
+     * member (each proto3 optional field gets its own synthetic oneof). Synthetic
+     * oneofs exist in the descriptor only, and do not generate any API. Synthetic
+     * oneofs must be ordered after all "real" oneofs.
+     * For message fields, proto3_optional doesn't create any semantic change,
+     * since non-repeated message fields always track presence. However it still
+     * indicates the semantic detail of whether the user wrote "optional" or not.
+     * This can be useful for round-tripping the .proto file. For consistency we
+     * give message fields a synthetic oneof also, even though it is not required
+     * to track presence. This is especially important because the parser can't
+     * tell if a field is a message or an enum, so it must always create a
+     * synthetic oneof.
+     * Proto2 optional fields do not set this flag, because they already indicate
+     * optional with `LABEL_OPTIONAL`.
+     *
+     * Generated from protobuf field <code>optional bool proto3_optional = 17;</code>
+     * @param bool $var
+     * @return $this
+     */
+    public function setProto3Optional($var)
+    {
+        GPBUtil::checkBool($var);
+        $this->proto3_optional = $var;
+        $this->has_proto3_optional = true;
+
+        return $this;
+    }
+
+    public function hasProto3Optional()
+    {
+        return $this->has_proto3_optional;
     }
 
 }
