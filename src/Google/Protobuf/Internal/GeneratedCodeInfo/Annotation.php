@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * Generated from protobuf message <code>google.protobuf.GeneratedCodeInfo.Annotation</code>
@@ -29,7 +28,7 @@ class Annotation extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional string source_file = 2;</code>
      */
-    private $source_file = '';
+    protected $source_file = '';
     private $has_source_file = false;
     /**
      * Identifies the starting offset in bytes in the generated code
@@ -37,7 +36,7 @@ class Annotation extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional int32 begin = 3;</code>
      */
-    private $begin = 0;
+    protected $begin = 0;
     private $has_begin = false;
     /**
      * Identifies the ending offset in bytes in the generated code that
@@ -46,7 +45,7 @@ class Annotation extends \Google\Protobuf\Internal\Message
      *
      * Generated from protobuf field <code>optional int32 end = 4;</code>
      */
-    private $end = 0;
+    protected $end = 0;
     private $has_end = false;
 
     /**
