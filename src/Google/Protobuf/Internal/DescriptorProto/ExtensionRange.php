@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * Generated from protobuf message <code>google.protobuf.DescriptorProto.ExtensionRange</code>
@@ -17,20 +16,21 @@ use Google\Protobuf\Internal\GPBWrapperUtils;
 class ExtensionRange extends \Google\Protobuf\Internal\Message
 {
     /**
+     * Inclusive.
+     *
      * Generated from protobuf field <code>optional int32 start = 1;</code>
      */
-    private $start = 0;
-    private $has_start = false;
+    protected $start = null;
     /**
+     * Exclusive.
+     *
      * Generated from protobuf field <code>optional int32 end = 2;</code>
      */
-    private $end = 0;
-    private $has_end = false;
+    protected $end = null;
     /**
      * Generated from protobuf field <code>optional .google.protobuf.ExtensionRangeOptions options = 3;</code>
      */
-    private $options = null;
-    private $has_options = false;
+    protected $options = null;
 
     /**
      * Constructor.
@@ -39,7 +39,9 @@ class ExtensionRange extends \Google\Protobuf\Internal\Message
      *     Optional. Data for populating the Message object.
      *
      *     @type int $start
+     *           Inclusive.
      *     @type int $end
+     *           Exclusive.
      *     @type \Google\Protobuf\Internal\ExtensionRangeOptions $options
      * }
      */
@@ -49,15 +51,29 @@ class ExtensionRange extends \Google\Protobuf\Internal\Message
     }
 
     /**
+     * Inclusive.
+     *
      * Generated from protobuf field <code>optional int32 start = 1;</code>
      * @return int
      */
     public function getStart()
     {
-        return $this->start;
+        return isset($this->start) ? $this->start : 0;
+    }
+
+    public function hasStart()
+    {
+        return isset($this->start);
+    }
+
+    public function clearStart()
+    {
+        unset($this->start);
     }
 
     /**
+     * Inclusive.
+     *
      * Generated from protobuf field <code>optional int32 start = 1;</code>
      * @param int $var
      * @return $this
@@ -66,26 +82,34 @@ class ExtensionRange extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt32($var);
         $this->start = $var;
-        $this->has_start = true;
 
         return $this;
     }
 
-    public function hasStart()
-    {
-        return $this->has_start;
-    }
-
     /**
+     * Exclusive.
+     *
      * Generated from protobuf field <code>optional int32 end = 2;</code>
      * @return int
      */
     public function getEnd()
     {
-        return $this->end;
+        return isset($this->end) ? $this->end : 0;
+    }
+
+    public function hasEnd()
+    {
+        return isset($this->end);
+    }
+
+    public function clearEnd()
+    {
+        unset($this->end);
     }
 
     /**
+     * Exclusive.
+     *
      * Generated from protobuf field <code>optional int32 end = 2;</code>
      * @param int $var
      * @return $this
@@ -94,14 +118,8 @@ class ExtensionRange extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt32($var);
         $this->end = $var;
-        $this->has_end = true;
 
         return $this;
-    }
-
-    public function hasEnd()
-    {
-        return $this->has_end;
     }
 
     /**
@@ -110,7 +128,17 @@ class ExtensionRange extends \Google\Protobuf\Internal\Message
      */
     public function getOptions()
     {
-        return $this->options;
+        return isset($this->options) ? $this->options : null;
+    }
+
+    public function hasOptions()
+    {
+        return isset($this->options);
+    }
+
+    public function clearOptions()
+    {
+        unset($this->options);
     }
 
     /**
@@ -122,14 +150,8 @@ class ExtensionRange extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkMessage($var, \Google\Protobuf\Internal\ExtensionRangeOptions::class);
         $this->options = $var;
-        $this->has_options = true;
 
         return $this;
-    }
-
-    public function hasOptions()
-    {
-        return $this->has_options;
     }
 
 }

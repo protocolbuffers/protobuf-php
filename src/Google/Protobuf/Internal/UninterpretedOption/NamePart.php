@@ -9,7 +9,6 @@ use Google\Protobuf\Internal\GPBWire;
 use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\InputStream;
 use Google\Protobuf\Internal\GPBUtil;
-use Google\Protobuf\Internal\GPBWrapperUtils;
 
 /**
  * The name of the uninterpreted option.  Each string represents a segment in
@@ -25,13 +24,11 @@ class NamePart extends \Google\Protobuf\Internal\Message
     /**
      * Generated from protobuf field <code>required string name_part = 1;</code>
      */
-    private $name_part = '';
-    private $has_name_part = false;
+    protected $name_part = null;
     /**
      * Generated from protobuf field <code>required bool is_extension = 2;</code>
      */
-    private $is_extension = false;
-    private $has_is_extension = false;
+    protected $is_extension = null;
 
     /**
      * Constructor.
@@ -54,7 +51,17 @@ class NamePart extends \Google\Protobuf\Internal\Message
      */
     public function getNamePart()
     {
-        return $this->name_part;
+        return isset($this->name_part) ? $this->name_part : '';
+    }
+
+    public function hasNamePart()
+    {
+        return isset($this->name_part);
+    }
+
+    public function clearNamePart()
+    {
+        unset($this->name_part);
     }
 
     /**
@@ -66,14 +73,8 @@ class NamePart extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkString($var, True);
         $this->name_part = $var;
-        $this->has_name_part = true;
 
         return $this;
-    }
-
-    public function hasNamePart()
-    {
-        return $this->has_name_part;
     }
 
     /**
@@ -82,7 +83,17 @@ class NamePart extends \Google\Protobuf\Internal\Message
      */
     public function getIsExtension()
     {
-        return $this->is_extension;
+        return isset($this->is_extension) ? $this->is_extension : false;
+    }
+
+    public function hasIsExtension()
+    {
+        return isset($this->is_extension);
+    }
+
+    public function clearIsExtension()
+    {
+        unset($this->is_extension);
     }
 
     /**
@@ -94,14 +105,8 @@ class NamePart extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkBool($var);
         $this->is_extension = $var;
-        $this->has_is_extension = true;
 
         return $this;
-    }
-
-    public function hasIsExtension()
-    {
-        return $this->has_is_extension;
     }
 
 }
