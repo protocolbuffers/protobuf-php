@@ -1587,7 +1587,9 @@ class Message
         } elseif ($field->isRepeated()) {
             return count($values) !== 0;
         } else {
-            return $values !== $this->defaultValue($field);
+            // we want to emit default value
+            // return $values !== $this->defaultValue($field);
+            return false;
         }
     }
 
