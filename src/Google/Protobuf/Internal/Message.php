@@ -93,8 +93,9 @@ class Message
         $pool = DescriptorPool::getGeneratedPool();
         $this->desc = $pool->getDescriptorByClassName(get_class($this));
         if (is_null($this->desc)) {
-            user_error(get_class($this) . " is not found in descriptor pool.");
-            return;
+          throw new \InvalidArgumentException(
+            get_class($this) ." is not found in descriptor pool. " .
+            'Only generated classes may derive from Message.');
         }
         foreach ($this->desc->getField() as $field) {
             $setter = $field->getSetter();
@@ -1187,6 +1188,7 @@ class Message
                 $v->mergeFromJsonArray($value, $ignore_unknown);
                 $fields[$key] = $v;
             }
+            return;
         }
         if (is_a($this, "Google\Protobuf\Value")) {
             if (is_bool($array)) {
@@ -1240,7 +1242,13 @@ class Message
             if (is_null($field)) {
                 $field = $this->desc->getFieldByName($key);
                 if (is_null($field)) {
-                    continue;
+                    if ($ignore_unknown) {
+                        continue;
+                    } else {
+                        throw new GPBDecodeException(
+                            $key . ' is unknown.'
+                        );
+                    }
                 }
             }
             if ($field->isMap()) {
