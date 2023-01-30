@@ -54,6 +54,7 @@ use Google\Protobuf\NullValue;
  * or extend this class or its child classes by their own.  See the comment of
  * specific functions for more details.
  */
+#[\AllowDynamicProperties]
 class Message
 {
 
@@ -93,8 +94,9 @@ class Message
         $pool = DescriptorPool::getGeneratedPool();
         $this->desc = $pool->getDescriptorByClassName(get_class($this));
         if (is_null($this->desc)) {
-            user_error(get_class($this) . " is not found in descriptor pool.");
-            return;
+          throw new \InvalidArgumentException(
+            get_class($this) ." is not found in descriptor pool. " .
+            'Only generated classes may derive from Message.');
         }
         foreach ($this->desc->getField() as $field) {
             $setter = $field->getSetter();
@@ -239,10 +241,14 @@ class Message
         $field = $this->desc->getFieldByNumber($number);
         $oneof = $this->desc->getOneofDecl()[$field->getOneofIndex()];
         $oneof_name = $oneof->getName();
-        $oneof_field = $this->$oneof_name;
-        $oneof_field->setValue($value);
-        $oneof_field->setFieldName($field->getName());
-        $oneof_field->setNumber($number);
+        if ($value === null) {
+            $this->$oneof_name = new OneofField($oneof);
+        } else {
+            $oneof_field = $this->$oneof_name;
+            $oneof_field->setValue($value);
+            $oneof_field->setFieldName($field->getName());
+            $oneof_field->setNumber($number);
+        }
     }
 
     protected function whichOneof($oneof_name)
@@ -418,7 +424,7 @@ class Message
                 }
                 break;
             case GPBType::GROUP:
-                trigger_error("Not implemented.", E_ERROR);
+                trigger_error("Not implemented.", E_USER_ERROR);
                 break;
             case GPBType::MESSAGE:
                 if ($field->isMap()) {
@@ -538,7 +544,7 @@ class Message
 
     /**
      * Clear all containing fields.
-     * @return null.
+     * @return null
      */
     public function clear()
     {
@@ -648,7 +654,7 @@ class Message
 
     /**
      * Clear all unknown fields previously parsed.
-     * @return null.
+     * @return null
      */
     public function discardUnknownFields()
     {
@@ -694,7 +700,7 @@ class Message
      * sub-messages are deep-copied.
      *
      * @param object $msg Protobuf message to be merged from.
-     * @return null.
+     * @return null
      */
     public function mergeFrom($msg)
     {
@@ -761,7 +767,7 @@ class Message
      * specified message.
      *
      * @param string $data Binary protobuf data.
-     * @return null.
+     * @return null
      * @throws \Exception Invalid data.
      */
     public function mergeFromString($data)
@@ -779,7 +785,8 @@ class Message
      * specified message.
      *
      * @param string $data Json protobuf data.
-     * @return null.
+     * @param bool $ignore_unknown
+     * @return null
      * @throws \Exception Invalid data.
      */
     public function mergeFromJsonString($data, $ignore_unknown = false)
@@ -1047,7 +1054,7 @@ class Message
      * must receive data that is either a string or a StringValue object.
      *
      * @param array $array An array containing message properties and values.
-     * @return null.
+     * @return null
      */
     protected function mergeFromArray(array $array)
     {
@@ -1187,6 +1194,7 @@ class Message
                 $v->mergeFromJsonArray($value, $ignore_unknown);
                 $fields[$key] = $v;
             }
+            return;
         }
         if (is_a($this, "Google\Protobuf\Value")) {
             if (is_bool($array)) {
@@ -1240,7 +1248,13 @@ class Message
             if (is_null($field)) {
                 $field = $this->desc->getFieldByName($key);
                 if (is_null($field)) {
-                    continue;
+                    if ($ignore_unknown) {
+                        continue;
+                    } else {
+                        throw new GPBDecodeException(
+                            $key . ' is unknown.'
+                        );
+                    }
                 }
             }
             if ($field->isMap()) {
@@ -1968,8 +1982,12 @@ class Message
                 $size += 9;
                 $size += $value_msg->jsonByteSize();
             } else {
-                // Size for value. +1 for comma, -2 for "{}".
-                $size += $value_msg->jsonByteSize() -1;
+                $value_size = $value_msg->jsonByteSize();
+                // size === 2 it's empty message {} which is not serialized inside any
+                if ($value_size !== 2) {
+                    // Size for value. +1 for comma, -2 for "{}".
+                    $size += $value_size -1;
+                }
             }
         } elseif (get_class($this) === 'Google\Protobuf\FieldMask') {
             $field_mask = GPBUtil::formatFieldMask($this);
