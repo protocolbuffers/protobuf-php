@@ -394,8 +394,7 @@ class Message
                 }
                 break;
             case GPBType::STRING:
-                // We don't check UTF-8 here; that will be validated by the
-                // setter later.
+                // TODO: Add utf-8 check.
                 if (!GPBWire::readString($input, $value)) {
                     throw new GPBDecodeException(
                         "Unexpected EOF inside string field.");
