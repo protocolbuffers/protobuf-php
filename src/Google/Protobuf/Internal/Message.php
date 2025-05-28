@@ -394,7 +394,8 @@ class Message
                 }
                 break;
             case GPBType::STRING:
-                // TODO: Add utf-8 check.
+                // We don't check UTF-8 here; that will be validated by the
+                // setter later.
                 if (!GPBWire::readString($input, $value)) {
                     throw new GPBDecodeException(
                         "Unexpected EOF inside string field.");
@@ -1314,7 +1315,7 @@ class Message
         try {
             $this->mergeFromJsonArray($array, $ignore_unknown);
         } catch (\Exception $e) {
-            throw new GPBDecodeException($e->getMessage());
+            throw new GPBDecodeException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -2013,5 +2014,57 @@ class Message
             $size += $count > 0 ? ($count - 1) : 0;
         }
         return $size;
+    }
+
+    public function __debugInfo()
+    {
+        if (is_a($this, 'Google\Protobuf\FieldMask')) {
+            return ['paths' => $this->getPaths()->__debugInfo()];
+        }
+
+        if (is_a($this, 'Google\Protobuf\Value')) {
+            switch ($this->getKind()) {
+                case 'null_value':
+                    return ['nullValue' => $this->getNullValue()];
+                case 'number_value':
+                    return ['numberValue' => $this->getNumberValue()];
+                case 'string_value':
+                    return ['stringValue' => $this->getStringValue()];
+                case 'bool_value':
+                    return ['boolValue' => $this->getBoolValue()];
+                case 'struct_value':
+                    return ['structValue' => $this->getStructValue()->__debugInfo()];
+                case 'list_value':
+                    return ['listValue' => $this->getListValue()->__debugInfo()];
+            }
+            return [];
+        }
+
+        if (is_a($this, 'Google\Protobuf\BoolValue')
+            || is_a($this, 'Google\Protobuf\BytesValue')
+            || is_a($this, 'Google\Protobuf\DoubleValue')
+            || is_a($this, 'Google\Protobuf\FloatValue')
+            || is_a($this, 'Google\Protobuf\StringValue')
+            || is_a($this, 'Google\Protobuf\Int32Value')
+            || is_a($this, 'Google\Protobuf\Int64Value')
+            || is_a($this, 'Google\Protobuf\UInt32Value')
+            || is_a($this, 'Google\Protobuf\UInt64Value')
+        ) {
+            return [
+                'value' => json_decode($this->serializeToJsonString(), true),
+            ];
+        }
+
+        if (
+            is_a($this, 'Google\Protobuf\Duration')
+            || is_a($this, 'Google\Protobuf\Timestamp')
+        ) {
+            return [
+                'seconds' => $this->getSeconds(),
+                'nanos' => $this->getNanos(),
+            ];
+        }
+
+        return json_decode($this->serializeToJsonString(), true);
     }
 }
