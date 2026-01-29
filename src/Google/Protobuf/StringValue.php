@@ -59,9 +59,9 @@ class StringValue extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setValue(string $var)
+    public function setValue($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->value = $var;
 
         return $this;

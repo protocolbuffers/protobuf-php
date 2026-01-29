@@ -74,7 +74,7 @@ class FeatureSetDefaults extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\FeatureSetDefaults\FeatureSetEditionDefault[] $var
      * @return $this
      */
-    public function setDefaults(array|RepeatedField $var)
+    public function setDefaults($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\FeatureSetDefaults\FeatureSetEditionDefault::class);
         $this->defaults = $arr;
@@ -87,7 +87,7 @@ class FeatureSetDefaults extends \Google\Protobuf\Internal\Message
      * Editions before this will not have defaults.
      *
      * Generated from protobuf field <code>optional .google.protobuf.Edition minimum_edition = 4;</code>
-     * @return int one of the values in {@see \Google\Protobuf\Internal\Edition}
+     * @return int
      */
     public function getMinimumEdition()
     {
@@ -109,10 +109,10 @@ class FeatureSetDefaults extends \Google\Protobuf\Internal\Message
      * Editions before this will not have defaults.
      *
      * Generated from protobuf field <code>optional .google.protobuf.Edition minimum_edition = 4;</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Internal\Edition}
+     * @param int $var
      * @return $this
      */
-    public function setMinimumEdition(int $var)
+    public function setMinimumEdition($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Internal\Edition::class);
         $this->minimum_edition = $var;
@@ -125,7 +125,7 @@ class FeatureSetDefaults extends \Google\Protobuf\Internal\Message
      * after this will not have reliable defaults.
      *
      * Generated from protobuf field <code>optional .google.protobuf.Edition maximum_edition = 5;</code>
-     * @return int one of the values in {@see \Google\Protobuf\Internal\Edition}
+     * @return int
      */
     public function getMaximumEdition()
     {
@@ -147,10 +147,10 @@ class FeatureSetDefaults extends \Google\Protobuf\Internal\Message
      * after this will not have reliable defaults.
      *
      * Generated from protobuf field <code>optional .google.protobuf.Edition maximum_edition = 5;</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Internal\Edition}
+     * @param int $var
      * @return $this
      */
-    public function setMaximumEdition(int $var)
+    public function setMaximumEdition($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Internal\Edition::class);
         $this->maximum_edition = $var;

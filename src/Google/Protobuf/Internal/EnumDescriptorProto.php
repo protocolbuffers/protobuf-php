@@ -101,9 +101,9 @@ class EnumDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setName(string $var)
+    public function setName($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->name = $var;
 
         return $this;
@@ -123,7 +123,7 @@ class EnumDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\EnumValueDescriptorProto[] $var
      * @return $this
      */
-    public function setValue(array|RepeatedField $var)
+    public function setValue($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\EnumValueDescriptorProto::class);
         $this->value = $arr;
@@ -155,8 +155,9 @@ class EnumDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\EnumOptions $var
      * @return $this
      */
-    public function setOptions(\Google\Protobuf\Internal\EnumOptions|null $var)
+    public function setOptions($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\EnumOptions::class);
         $this->options = $var;
 
         return $this;
@@ -184,7 +185,7 @@ class EnumDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\EnumDescriptorProto\EnumReservedRange[] $var
      * @return $this
      */
-    public function setReservedRange(array|RepeatedField $var)
+    public function setReservedRange($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\EnumDescriptorProto\EnumReservedRange::class);
         $this->reserved_range = $arr;
@@ -212,7 +213,7 @@ class EnumDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string[] $var
      * @return $this
      */
-    public function setReservedName(array|RepeatedField $var)
+    public function setReservedName($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::STRING);
         $this->reserved_name = $arr;
@@ -224,7 +225,7 @@ class EnumDescriptorProto extends \Google\Protobuf\Internal\Message
      * Support for `export` and `local` keywords on enums.
      *
      * Generated from protobuf field <code>optional .google.protobuf.SymbolVisibility visibility = 6;</code>
-     * @return int one of the values in {@see \Google\Protobuf\Internal\SymbolVisibility}
+     * @return int
      */
     public function getVisibility()
     {
@@ -245,10 +246,10 @@ class EnumDescriptorProto extends \Google\Protobuf\Internal\Message
      * Support for `export` and `local` keywords on enums.
      *
      * Generated from protobuf field <code>optional .google.protobuf.SymbolVisibility visibility = 6;</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Internal\SymbolVisibility}
+     * @param int $var
      * @return $this
      */
-    public function setVisibility(int $var)
+    public function setVisibility($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Internal\SymbolVisibility::class);
         $this->visibility = $var;

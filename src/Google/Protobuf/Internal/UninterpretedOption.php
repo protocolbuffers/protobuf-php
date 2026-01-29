@@ -91,7 +91,7 @@ class UninterpretedOption extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\UninterpretedOption\NamePart[] $var
      * @return $this
      */
-    public function setName(array|RepeatedField $var)
+    public function setName($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\UninterpretedOption\NamePart::class);
         $this->name = $arr;
@@ -129,9 +129,9 @@ class UninterpretedOption extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setIdentifierValue(string $var)
+    public function setIdentifierValue($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->identifier_value = $var;
 
         return $this;
@@ -143,7 +143,7 @@ class UninterpretedOption extends \Google\Protobuf\Internal\Message
      */
     public function getPositiveIntValue()
     {
-        return isset($this->positive_int_value) ? $this->positive_int_value : GPBUtil::compatibleInt64(0, '0');
+        return isset($this->positive_int_value) ? $this->positive_int_value : 0;
     }
 
     public function hasPositiveIntValue()
@@ -161,7 +161,7 @@ class UninterpretedOption extends \Google\Protobuf\Internal\Message
      * @param int|string $var
      * @return $this
      */
-    public function setPositiveIntValue(int|string $var)
+    public function setPositiveIntValue($var)
     {
         GPBUtil::checkUint64($var);
         $this->positive_int_value = $var;
@@ -175,7 +175,7 @@ class UninterpretedOption extends \Google\Protobuf\Internal\Message
      */
     public function getNegativeIntValue()
     {
-        return isset($this->negative_int_value) ? $this->negative_int_value : GPBUtil::compatibleInt64(0, '0');
+        return isset($this->negative_int_value) ? $this->negative_int_value : 0;
     }
 
     public function hasNegativeIntValue()
@@ -193,7 +193,7 @@ class UninterpretedOption extends \Google\Protobuf\Internal\Message
      * @param int|string $var
      * @return $this
      */
-    public function setNegativeIntValue(int|string $var)
+    public function setNegativeIntValue($var)
     {
         GPBUtil::checkInt64($var);
         $this->negative_int_value = $var;
@@ -225,8 +225,9 @@ class UninterpretedOption extends \Google\Protobuf\Internal\Message
      * @param float $var
      * @return $this
      */
-    public function setDoubleValue(float $var)
+    public function setDoubleValue($var)
     {
+        GPBUtil::checkDouble($var);
         $this->double_value = $var;
 
         return $this;
@@ -256,9 +257,9 @@ class UninterpretedOption extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setStringValue(string $var)
+    public function setStringValue($var)
     {
-        GPBUtil::checkString($var, false);
+        GPBUtil::checkString($var, False);
         $this->string_value = $var;
 
         return $this;
@@ -288,9 +289,9 @@ class UninterpretedOption extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setAggregateValue(string $var)
+    public function setAggregateValue($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->aggregate_value = $var;
 
         return $this;

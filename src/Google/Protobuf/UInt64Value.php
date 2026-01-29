@@ -59,7 +59,7 @@ class UInt64Value extends \Google\Protobuf\Internal\Message
      * @param int|string $var
      * @return $this
      */
-    public function setValue(int|string $var)
+    public function setValue($var)
     {
         GPBUtil::checkUint64($var);
         $this->value = $var;

@@ -45,7 +45,7 @@ class EditionDefault extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>optional .google.protobuf.Edition edition = 3;</code>
-     * @return int one of the values in {@see \Google\Protobuf\Internal\Edition}
+     * @return int
      */
     public function getEdition()
     {
@@ -64,10 +64,10 @@ class EditionDefault extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>optional .google.protobuf.Edition edition = 3;</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Internal\Edition}
+     * @param int $var
      * @return $this
      */
-    public function setEdition(int $var)
+    public function setEdition($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Internal\Edition::class);
         $this->edition = $var;
@@ -103,9 +103,9 @@ class EditionDefault extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setValue(string $var)
+    public function setValue($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->value = $var;
 
         return $this;

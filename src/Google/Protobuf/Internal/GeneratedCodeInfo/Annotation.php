@@ -95,7 +95,7 @@ class Annotation extends \Google\Protobuf\Internal\Message
      * @param int[] $var
      * @return $this
      */
-    public function setPath(array|RepeatedField $var)
+    public function setPath($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::INT32);
         $this->path = $arr;
@@ -131,9 +131,9 @@ class Annotation extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setSourceFile(string $var)
+    public function setSourceFile($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->source_file = $var;
 
         return $this;
@@ -169,7 +169,7 @@ class Annotation extends \Google\Protobuf\Internal\Message
      * @param int $var
      * @return $this
      */
-    public function setBegin(int $var)
+    public function setBegin($var)
     {
         GPBUtil::checkInt32($var);
         $this->begin = $var;
@@ -209,7 +209,7 @@ class Annotation extends \Google\Protobuf\Internal\Message
      * @param int $var
      * @return $this
      */
-    public function setEnd(int $var)
+    public function setEnd($var)
     {
         GPBUtil::checkInt32($var);
         $this->end = $var;
@@ -219,7 +219,7 @@ class Annotation extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>optional .google.protobuf.GeneratedCodeInfo.Annotation.Semantic semantic = 5;</code>
-     * @return int one of the values in {@see \Google\Protobuf\Internal\GeneratedCodeInfo\Annotation\Semantic}
+     * @return int
      */
     public function getSemantic()
     {
@@ -238,10 +238,10 @@ class Annotation extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>optional .google.protobuf.GeneratedCodeInfo.Annotation.Semantic semantic = 5;</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Internal\GeneratedCodeInfo\Annotation\Semantic}
+     * @param int $var
      * @return $this
      */
-    public function setSemantic(int $var)
+    public function setSemantic($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Internal\GeneratedCodeInfo\Annotation\Semantic::class);
         $this->semantic = $var;

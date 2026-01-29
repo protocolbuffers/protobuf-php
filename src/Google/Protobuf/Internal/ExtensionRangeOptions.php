@@ -88,7 +88,7 @@ class ExtensionRangeOptions extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\UninterpretedOption[] $var
      * @return $this
      */
-    public function setUninterpretedOption(array|RepeatedField $var)
+    public function setUninterpretedOption($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\UninterpretedOption::class);
         $this->uninterpreted_option = $arr;
@@ -118,7 +118,7 @@ class ExtensionRangeOptions extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\ExtensionRangeOptions\Declaration[] $var
      * @return $this
      */
-    public function setDeclaration(array|RepeatedField $var)
+    public function setDeclaration($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\ExtensionRangeOptions\Declaration::class);
         $this->declaration = $arr;
@@ -154,8 +154,9 @@ class ExtensionRangeOptions extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\FeatureSet $var
      * @return $this
      */
-    public function setFeatures(\Google\Protobuf\Internal\FeatureSet|null $var)
+    public function setFeatures($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\FeatureSet::class);
         $this->features = $var;
 
         return $this;
@@ -167,11 +168,11 @@ class ExtensionRangeOptions extends \Google\Protobuf\Internal\Message
      * are marked as UNVERIFIED.
      *
      * Generated from protobuf field <code>optional .google.protobuf.ExtensionRangeOptions.VerificationState verification = 3 [default = UNVERIFIED, retention = RETENTION_SOURCE];</code>
-     * @return int one of the values in {@see \Google\Protobuf\Internal\ExtensionRangeOptions\VerificationState}
+     * @return int
      */
     public function getVerification()
     {
-        return isset($this->verification) ? $this->verification : 1;
+        return isset($this->verification) ? $this->verification : 0;
     }
 
     public function hasVerification()
@@ -190,10 +191,10 @@ class ExtensionRangeOptions extends \Google\Protobuf\Internal\Message
      * are marked as UNVERIFIED.
      *
      * Generated from protobuf field <code>optional .google.protobuf.ExtensionRangeOptions.VerificationState verification = 3 [default = UNVERIFIED, retention = RETENTION_SOURCE];</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Internal\ExtensionRangeOptions\VerificationState}
+     * @param int $var
      * @return $this
      */
-    public function setVerification(int $var)
+    public function setVerification($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Internal\ExtensionRangeOptions\VerificationState::class);
         $this->verification = $var;

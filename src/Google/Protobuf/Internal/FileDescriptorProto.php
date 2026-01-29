@@ -186,9 +186,9 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setName(string $var)
+    public function setName($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->name = $var;
 
         return $this;
@@ -222,9 +222,9 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setPackage(string $var)
+    public function setPackage($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->package = $var;
 
         return $this;
@@ -248,7 +248,7 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string[] $var
      * @return $this
      */
-    public function setDependency(array|RepeatedField $var)
+    public function setDependency($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::STRING);
         $this->dependency = $arr;
@@ -274,7 +274,7 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param int[] $var
      * @return $this
      */
-    public function setPublicDependency(array|RepeatedField $var)
+    public function setPublicDependency($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::INT32);
         $this->public_dependency = $arr;
@@ -302,7 +302,7 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param int[] $var
      * @return $this
      */
-    public function setWeakDependency(array|RepeatedField $var)
+    public function setWeakDependency($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::INT32);
         $this->weak_dependency = $arr;
@@ -330,7 +330,7 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string[] $var
      * @return $this
      */
-    public function setOptionDependency(array|RepeatedField $var)
+    public function setOptionDependency($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::STRING);
         $this->option_dependency = $arr;
@@ -356,7 +356,7 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\DescriptorProto[] $var
      * @return $this
      */
-    public function setMessageType(array|RepeatedField $var)
+    public function setMessageType($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\DescriptorProto::class);
         $this->message_type = $arr;
@@ -378,7 +378,7 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\EnumDescriptorProto[] $var
      * @return $this
      */
-    public function setEnumType(array|RepeatedField $var)
+    public function setEnumType($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\EnumDescriptorProto::class);
         $this->enum_type = $arr;
@@ -400,7 +400,7 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\ServiceDescriptorProto[] $var
      * @return $this
      */
-    public function setService(array|RepeatedField $var)
+    public function setService($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\ServiceDescriptorProto::class);
         $this->service = $arr;
@@ -422,7 +422,7 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\FieldDescriptorProto[] $var
      * @return $this
      */
-    public function setExtension(array|RepeatedField $var)
+    public function setExtension($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\FieldDescriptorProto::class);
         $this->extension = $arr;
@@ -454,8 +454,9 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\FileOptions $var
      * @return $this
      */
-    public function setOptions(\Google\Protobuf\Internal\FileOptions|null $var)
+    public function setOptions($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\FileOptions::class);
         $this->options = $var;
 
         return $this;
@@ -495,8 +496,9 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\SourceCodeInfo $var
      * @return $this
      */
-    public function setSourceCodeInfo(\Google\Protobuf\Internal\SourceCodeInfo|null $var)
+    public function setSourceCodeInfo($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\SourceCodeInfo::class);
         $this->source_code_info = $var;
 
         return $this;
@@ -540,9 +542,9 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setSyntax(string $var)
+    public function setSyntax($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->syntax = $var;
 
         return $this;
@@ -555,7 +557,7 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * developers should rely on the protoreflect APIs for their client language.
      *
      * Generated from protobuf field <code>optional .google.protobuf.Edition edition = 14;</code>
-     * @return int one of the values in {@see \Google\Protobuf\Internal\Edition}
+     * @return int
      */
     public function getEdition()
     {
@@ -579,10 +581,10 @@ class FileDescriptorProto extends \Google\Protobuf\Internal\Message
      * developers should rely on the protoreflect APIs for their client language.
      *
      * Generated from protobuf field <code>optional .google.protobuf.Edition edition = 14;</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Internal\Edition}
+     * @param int $var
      * @return $this
      */
-    public function setEdition(int $var)
+    public function setEdition($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Internal\Edition::class);
         $this->edition = $var;

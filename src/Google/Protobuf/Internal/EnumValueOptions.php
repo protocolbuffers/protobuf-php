@@ -120,8 +120,9 @@ class EnumValueOptions extends \Google\Protobuf\Internal\Message
      * @param bool $var
      * @return $this
      */
-    public function setDeprecated(bool $var)
+    public function setDeprecated($var)
     {
+        GPBUtil::checkBool($var);
         $this->deprecated = $var;
 
         return $this;
@@ -161,8 +162,9 @@ class EnumValueOptions extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\FeatureSet $var
      * @return $this
      */
-    public function setFeatures(\Google\Protobuf\Internal\FeatureSet|null $var)
+    public function setFeatures($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\FeatureSet::class);
         $this->features = $var;
 
         return $this;
@@ -200,8 +202,9 @@ class EnumValueOptions extends \Google\Protobuf\Internal\Message
      * @param bool $var
      * @return $this
      */
-    public function setDebugRedact(bool $var)
+    public function setDebugRedact($var)
     {
+        GPBUtil::checkBool($var);
         $this->debug_redact = $var;
 
         return $this;
@@ -235,8 +238,9 @@ class EnumValueOptions extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\FieldOptions\FeatureSupport $var
      * @return $this
      */
-    public function setFeatureSupport(\Google\Protobuf\Internal\FieldOptions\FeatureSupport|null $var)
+    public function setFeatureSupport($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\FieldOptions\FeatureSupport::class);
         $this->feature_support = $var;
 
         return $this;
@@ -260,7 +264,7 @@ class EnumValueOptions extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\UninterpretedOption[] $var
      * @return $this
      */
-    public function setUninterpretedOption(array|RepeatedField $var)
+    public function setUninterpretedOption($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\UninterpretedOption::class);
         $this->uninterpreted_option = $arr;

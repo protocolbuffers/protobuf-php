@@ -126,9 +126,9 @@ class Method extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setName(string $var)
+    public function setName($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->name = $var;
 
         return $this;
@@ -152,9 +152,9 @@ class Method extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setRequestTypeUrl(string $var)
+    public function setRequestTypeUrl($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->request_type_url = $var;
 
         return $this;
@@ -178,8 +178,9 @@ class Method extends \Google\Protobuf\Internal\Message
      * @param bool $var
      * @return $this
      */
-    public function setRequestStreaming(bool $var)
+    public function setRequestStreaming($var)
     {
+        GPBUtil::checkBool($var);
         $this->request_streaming = $var;
 
         return $this;
@@ -203,9 +204,9 @@ class Method extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setResponseTypeUrl(string $var)
+    public function setResponseTypeUrl($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->response_type_url = $var;
 
         return $this;
@@ -229,8 +230,9 @@ class Method extends \Google\Protobuf\Internal\Message
      * @param bool $var
      * @return $this
      */
-    public function setResponseStreaming(bool $var)
+    public function setResponseStreaming($var)
     {
+        GPBUtil::checkBool($var);
         $this->response_streaming = $var;
 
         return $this;
@@ -254,7 +256,7 @@ class Method extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Option[] $var
      * @return $this
      */
-    public function setOptions(array|RepeatedField $var)
+    public function setOptions($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Option::class);
         $this->options = $arr;
@@ -268,7 +270,7 @@ class Method extends \Google\Protobuf\Internal\Message
      * Api. This is similar to Field and EnumValue.
      *
      * Generated from protobuf field <code>.google.protobuf.Syntax syntax = 7 [deprecated = true];</code>
-     * @return int one of the values in {@see \Google\Protobuf\Syntax}
+     * @return int
      * @deprecated
      */
     public function getSyntax()
@@ -285,11 +287,11 @@ class Method extends \Google\Protobuf\Internal\Message
      * Api. This is similar to Field and EnumValue.
      *
      * Generated from protobuf field <code>.google.protobuf.Syntax syntax = 7 [deprecated = true];</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Syntax}
+     * @param int $var
      * @return $this
      * @deprecated
      */
-    public function setSyntax(int $var)
+    public function setSyntax($var)
     {
         @trigger_error('syntax is deprecated.', E_USER_DEPRECATED);
         GPBUtil::checkEnum($var, \Google\Protobuf\Syntax::class);
@@ -325,10 +327,10 @@ class Method extends \Google\Protobuf\Internal\Message
      * @return $this
      * @deprecated
      */
-    public function setEdition(string $var)
+    public function setEdition($var)
     {
         @trigger_error('edition is deprecated.', E_USER_DEPRECATED);
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->edition = $var;
 
         return $this;

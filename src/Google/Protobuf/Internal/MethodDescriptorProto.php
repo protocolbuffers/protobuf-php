@@ -97,9 +97,9 @@ class MethodDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setName(string $var)
+    public function setName($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->name = $var;
 
         return $this;
@@ -135,9 +135,9 @@ class MethodDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setInputType(string $var)
+    public function setInputType($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->input_type = $var;
 
         return $this;
@@ -167,9 +167,9 @@ class MethodDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setOutputType(string $var)
+    public function setOutputType($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->output_type = $var;
 
         return $this;
@@ -199,8 +199,9 @@ class MethodDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\MethodOptions $var
      * @return $this
      */
-    public function setOptions(\Google\Protobuf\Internal\MethodOptions|null $var)
+    public function setOptions($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\MethodOptions::class);
         $this->options = $var;
 
         return $this;
@@ -234,8 +235,9 @@ class MethodDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param bool $var
      * @return $this
      */
-    public function setClientStreaming(bool $var)
+    public function setClientStreaming($var)
     {
+        GPBUtil::checkBool($var);
         $this->client_streaming = $var;
 
         return $this;
@@ -269,8 +271,9 @@ class MethodDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param bool $var
      * @return $this
      */
-    public function setServerStreaming(bool $var)
+    public function setServerStreaming($var)
     {
+        GPBUtil::checkBool($var);
         $this->server_streaming = $var;
 
         return $this;

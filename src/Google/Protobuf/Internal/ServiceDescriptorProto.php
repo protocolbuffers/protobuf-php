@@ -71,9 +71,9 @@ class ServiceDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setName(string $var)
+    public function setName($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->name = $var;
 
         return $this;
@@ -93,7 +93,7 @@ class ServiceDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\MethodDescriptorProto[] $var
      * @return $this
      */
-    public function setMethod(array|RepeatedField $var)
+    public function setMethod($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\MethodDescriptorProto::class);
         $this->method = $arr;
@@ -125,8 +125,9 @@ class ServiceDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\ServiceOptions $var
      * @return $this
      */
-    public function setOptions(\Google\Protobuf\Internal\ServiceOptions|null $var)
+    public function setOptions($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\ServiceOptions::class);
         $this->options = $var;
 
         return $this;

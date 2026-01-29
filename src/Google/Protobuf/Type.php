@@ -108,9 +108,9 @@ class Type extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setName(string $var)
+    public function setName($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->name = $var;
 
         return $this;
@@ -134,7 +134,7 @@ class Type extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Field[] $var
      * @return $this
      */
-    public function setFields(array|RepeatedField $var)
+    public function setFields($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Field::class);
         $this->fields = $arr;
@@ -160,7 +160,7 @@ class Type extends \Google\Protobuf\Internal\Message
      * @param string[] $var
      * @return $this
      */
-    public function setOneofs(array|RepeatedField $var)
+    public function setOneofs($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::STRING);
         $this->oneofs = $arr;
@@ -186,7 +186,7 @@ class Type extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Option[] $var
      * @return $this
      */
-    public function setOptions(array|RepeatedField $var)
+    public function setOptions($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Option::class);
         $this->options = $arr;
@@ -222,8 +222,9 @@ class Type extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\SourceContext $var
      * @return $this
      */
-    public function setSourceContext(\Google\Protobuf\SourceContext|null $var)
+    public function setSourceContext($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\SourceContext::class);
         $this->source_context = $var;
 
         return $this;
@@ -233,7 +234,7 @@ class Type extends \Google\Protobuf\Internal\Message
      * The source syntax.
      *
      * Generated from protobuf field <code>.google.protobuf.Syntax syntax = 6;</code>
-     * @return int one of the values in {@see \Google\Protobuf\Syntax}
+     * @return int
      */
     public function getSyntax()
     {
@@ -244,10 +245,10 @@ class Type extends \Google\Protobuf\Internal\Message
      * The source syntax.
      *
      * Generated from protobuf field <code>.google.protobuf.Syntax syntax = 6;</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Syntax}
+     * @param int $var
      * @return $this
      */
-    public function setSyntax(int $var)
+    public function setSyntax($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Syntax::class);
         $this->syntax = $var;
@@ -273,9 +274,9 @@ class Type extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setEdition(string $var)
+    public function setEdition($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->edition = $var;
 
         return $this;
