@@ -20,6 +20,7 @@ class DescriptorPool
     private static $pool;
     // Map from message names to sub-maps, which are maps from field numbers to
     // field descriptors.
+    private $unique_descs = [];
     private $class_to_desc = [];
     private $class_to_enum_desc = [];
     private $proto_to_class = [];
@@ -71,9 +72,11 @@ class DescriptorPool
     {
         $this->proto_to_class[$descriptor->getFullName()] =
             $descriptor->getClass();
+        $this->unique_descs[$descriptor->getFullName()] =
+            $descriptor;
         $this->class_to_desc[$descriptor->getClass()] = $descriptor;
-        $this->class_to_desc[$descriptor->getLegacyClass()] = $descriptor;
-        $this->class_to_desc[$descriptor->getPreviouslyUnreservedClass()] = $descriptor;
+        $this->class_to_desc[$descriptor->getLegacyClass() ?? ''] = $descriptor;
+        $this->class_to_desc[$descriptor->getPreviouslyUnreservedClass() ?? ''] = $descriptor;
         foreach ($descriptor->getNestedType() as $nested_type) {
             $this->addDescriptor($nested_type);
         }
@@ -87,7 +90,7 @@ class DescriptorPool
         $this->proto_to_class[$descriptor->getFullName()] =
             $descriptor->getClass();
         $this->class_to_enum_desc[$descriptor->getClass()] = $descriptor;
-        $this->class_to_enum_desc[$descriptor->getLegacyClass()] = $descriptor;
+        $this->class_to_enum_desc[$descriptor->getLegacyClass() ?? ''] = $descriptor;
     }
 
     public function getDescriptorByClassName($klass)
@@ -163,7 +166,7 @@ class DescriptorPool
 
     public function finish()
     {
-        foreach ($this->class_to_desc as $klass => $desc) {
+        foreach ($this->unique_descs as $klass => $desc) {
             $this->crossLink($desc);
         }
         unset($desc);

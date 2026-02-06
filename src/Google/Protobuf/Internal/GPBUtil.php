@@ -12,8 +12,8 @@ namespace Google\Protobuf\Internal;
 use Google\Protobuf\Duration;
 use Google\Protobuf\FieldMask;
 use Google\Protobuf\Internal\GPBType;
-use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\MapField;
+use Google\Protobuf\RepeatedField;
 use function bccomp;
 
 function camel2underscore($input) {
@@ -640,5 +640,10 @@ class GPBUtil
                is_a($msg, "Google\Protobuf\BoolValue")   ||
                is_a($msg, "Google\Protobuf\StringValue") ||
                is_a($msg, "Google\Protobuf\BytesValue");
+    }
+
+    public static function compatibleInt64($int64, $stringInt64)
+    {
+        return PHP_INT_SIZE === 4 ? $stringInt64 : $int64;
     }
 }

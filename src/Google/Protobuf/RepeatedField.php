@@ -12,15 +12,22 @@
  * classes to manipulate repeated fields.
  */
 
-namespace Google\Protobuf\Internal;
+namespace Google\Protobuf;
 
+use Google\Protobuf\Internal\DescriptorPool;
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
+use Google\Protobuf\Internal\Message;
+use Google\Protobuf\Internal\RepeatedFieldIter;
 use Traversable;
 
 /**
  * RepeatedField is used by generated protocol message classes to manipulate
  * repeated fields. It can be used like native PHP array.
+ *
+ * @template T
+ * @implements \ArrayAccess<int, T>
+ * @implements \IteratorAggregate<T>
  */
 class RepeatedField implements \ArrayAccess, \IteratorAggregate, \Countable
 {
@@ -35,18 +42,15 @@ class RepeatedField implements \ArrayAccess, \IteratorAggregate, \Countable
     private $type;
     /**
      * @ignore
+     * @var string|class-string<T>
      */
     private $klass;
-    /**
-     * @ignore
-     */
-    private $legacy_klass;
 
     /**
      * Constructs an instance of RepeatedField.
      *
      * @param integer $type Type of the stored element.
-     * @param string $klass Message/Enum class name (message/enum fields only).
+     * @param string|class-string<T> $klass Message/Enum class name (message/enum fields only).
      * @ignore
      */
     public function __construct($type, $klass = null)
@@ -61,7 +65,6 @@ class RepeatedField implements \ArrayAccess, \IteratorAggregate, \Countable
                 $desc = $pool->getDescriptorByClassName($klass);
             }
             $this->klass = $desc->getClass();
-            $this->legacy_klass = $desc->getLegacyClass();
         }
     }
 
@@ -75,18 +78,11 @@ class RepeatedField implements \ArrayAccess, \IteratorAggregate, \Countable
 
     /**
      * @ignore
+     * @return string|class-string<T>
      */
     public function getClass()
     {
         return $this->klass;
-    }
-
-    /**
-     * @ignore
-     */
-    public function getLegacyClass()
-    {
-        return $this->legacy_klass;
     }
 
     /**
@@ -95,7 +91,7 @@ class RepeatedField implements \ArrayAccess, \IteratorAggregate, \Countable
      * This will also be called for: $ele = $arr[0]
      *
      * @param integer $offset The index of the element to be fetched.
-     * @return mixed The stored element at given index.
+	 * @return T The stored element at given index.
      * @throws \ErrorException Invalid type for index.
      * @throws \ErrorException Non-existing index.
      * @todo need to add return type mixed (require update php version to 8.0)
@@ -112,7 +108,7 @@ class RepeatedField implements \ArrayAccess, \IteratorAggregate, \Countable
      * This will also be called for: $arr []= $ele and $arr[0] = ele
      *
      * @param int|null $offset The index of the element to be assigned.
-     * @param mixed $value The element to be assigned.
+     * @param T $value The element to be assigned.
      * @return void
      * @throws \ErrorException Invalid type for index.
      * @throws \ErrorException Non-existing index.
@@ -252,3 +248,5 @@ class RepeatedField implements \ArrayAccess, \IteratorAggregate, \Countable
         );
     }
 }
+
+class_alias(RepeatedField::class, Internal\RepeatedField::class);
