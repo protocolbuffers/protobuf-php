@@ -59,9 +59,9 @@ class BytesValue extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setValue(string $var)
+    public function setValue($var)
     {
-        GPBUtil::checkString($var, false);
+        GPBUtil::checkString($var, False);
         $this->value = $var;
 
         return $this;

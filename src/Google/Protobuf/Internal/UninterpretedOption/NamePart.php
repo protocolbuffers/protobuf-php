@@ -70,9 +70,9 @@ class NamePart extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setNamePart(string $var)
+    public function setNamePart($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->name_part = $var;
 
         return $this;
@@ -102,8 +102,9 @@ class NamePart extends \Google\Protobuf\Internal\Message
      * @param bool $var
      * @return $this
      */
-    public function setIsExtension(bool $var)
+    public function setIsExtension($var)
     {
+        GPBUtil::checkBool($var);
         $this->is_extension = $var;
 
         return $this;

@@ -161,9 +161,9 @@ class Api extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setName(string $var)
+    public function setName($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->name = $var;
 
         return $this;
@@ -187,7 +187,7 @@ class Api extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Method[] $var
      * @return $this
      */
-    public function setMethods(array|RepeatedField $var)
+    public function setMethods($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Method::class);
         $this->methods = $arr;
@@ -213,7 +213,7 @@ class Api extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Option[] $var
      * @return $this
      */
-    public function setOptions(array|RepeatedField $var)
+    public function setOptions($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Option::class);
         $this->options = $arr;
@@ -271,9 +271,9 @@ class Api extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setVersion(string $var)
+    public function setVersion($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->version = $var;
 
         return $this;
@@ -309,8 +309,9 @@ class Api extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\SourceContext $var
      * @return $this
      */
-    public function setSourceContext(\Google\Protobuf\SourceContext|null $var)
+    public function setSourceContext($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\SourceContext::class);
         $this->source_context = $var;
 
         return $this;
@@ -334,7 +335,7 @@ class Api extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Mixin[] $var
      * @return $this
      */
-    public function setMixins(array|RepeatedField $var)
+    public function setMixins($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Mixin::class);
         $this->mixins = $arr;
@@ -346,7 +347,7 @@ class Api extends \Google\Protobuf\Internal\Message
      * The source syntax of the service.
      *
      * Generated from protobuf field <code>.google.protobuf.Syntax syntax = 7;</code>
-     * @return int one of the values in {@see \Google\Protobuf\Syntax}
+     * @return int
      */
     public function getSyntax()
     {
@@ -357,10 +358,10 @@ class Api extends \Google\Protobuf\Internal\Message
      * The source syntax of the service.
      *
      * Generated from protobuf field <code>.google.protobuf.Syntax syntax = 7;</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Syntax}
+     * @param int $var
      * @return $this
      */
-    public function setSyntax(int $var)
+    public function setSyntax($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Syntax::class);
         $this->syntax = $var;
@@ -386,9 +387,9 @@ class Api extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setEdition(string $var)
+    public function setEdition($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->edition = $var;
 
         return $this;

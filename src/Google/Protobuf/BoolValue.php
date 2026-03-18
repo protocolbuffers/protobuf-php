@@ -59,8 +59,9 @@ class BoolValue extends \Google\Protobuf\Internal\Message
      * @param bool $var
      * @return $this
      */
-    public function setValue(bool $var)
+    public function setValue($var)
     {
+        GPBUtil::checkBool($var);
         $this->value = $var;
 
         return $this;

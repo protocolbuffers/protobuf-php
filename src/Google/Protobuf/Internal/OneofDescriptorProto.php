@@ -66,9 +66,9 @@ class OneofDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setName(string $var)
+    public function setName($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->name = $var;
 
         return $this;
@@ -98,8 +98,9 @@ class OneofDescriptorProto extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\OneofOptions $var
      * @return $this
      */
-    public function setOptions(\Google\Protobuf\Internal\OneofOptions|null $var)
+    public function setOptions($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\OneofOptions::class);
         $this->options = $var;
 
         return $this;

@@ -58,7 +58,7 @@ class FeatureSetEditionDefault extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>optional .google.protobuf.Edition edition = 3;</code>
-     * @return int one of the values in {@see \Google\Protobuf\Internal\Edition}
+     * @return int
      */
     public function getEdition()
     {
@@ -77,10 +77,10 @@ class FeatureSetEditionDefault extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>optional .google.protobuf.Edition edition = 3;</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Internal\Edition}
+     * @param int $var
      * @return $this
      */
-    public function setEdition(int $var)
+    public function setEdition($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Internal\Edition::class);
         $this->edition = $var;
@@ -116,8 +116,9 @@ class FeatureSetEditionDefault extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\FeatureSet $var
      * @return $this
      */
-    public function setOverridableFeatures(\Google\Protobuf\Internal\FeatureSet|null $var)
+    public function setOverridableFeatures($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\FeatureSet::class);
         $this->overridable_features = $var;
 
         return $this;
@@ -151,8 +152,9 @@ class FeatureSetEditionDefault extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\FeatureSet $var
      * @return $this
      */
-    public function setFixedFeatures(\Google\Protobuf\Internal\FeatureSet|null $var)
+    public function setFixedFeatures($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\FeatureSet::class);
         $this->fixed_features = $var;
 
         return $this;

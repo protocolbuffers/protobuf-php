@@ -105,8 +105,9 @@ class MethodOptions extends \Google\Protobuf\Internal\Message
      * @param bool $var
      * @return $this
      */
-    public function setDeprecated(bool $var)
+    public function setDeprecated($var)
     {
+        GPBUtil::checkBool($var);
         $this->deprecated = $var;
 
         return $this;
@@ -114,7 +115,7 @@ class MethodOptions extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>optional .google.protobuf.MethodOptions.IdempotencyLevel idempotency_level = 34 [default = IDEMPOTENCY_UNKNOWN];</code>
-     * @return int one of the values in {@see \Google\Protobuf\Internal\MethodOptions\IdempotencyLevel}
+     * @return int
      */
     public function getIdempotencyLevel()
     {
@@ -133,10 +134,10 @@ class MethodOptions extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>optional .google.protobuf.MethodOptions.IdempotencyLevel idempotency_level = 34 [default = IDEMPOTENCY_UNKNOWN];</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Internal\MethodOptions\IdempotencyLevel}
+     * @param int $var
      * @return $this
      */
-    public function setIdempotencyLevel(int $var)
+    public function setIdempotencyLevel($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Internal\MethodOptions\IdempotencyLevel::class);
         $this->idempotency_level = $var;
@@ -178,8 +179,9 @@ class MethodOptions extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\FeatureSet $var
      * @return $this
      */
-    public function setFeatures(\Google\Protobuf\Internal\FeatureSet|null $var)
+    public function setFeatures($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Internal\FeatureSet::class);
         $this->features = $var;
 
         return $this;
@@ -203,7 +205,7 @@ class MethodOptions extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Internal\UninterpretedOption[] $var
      * @return $this
      */
-    public function setUninterpretedOption(array|RepeatedField $var)
+    public function setUninterpretedOption($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Internal\UninterpretedOption::class);
         $this->uninterpreted_option = $arr;

@@ -51,7 +51,7 @@ class Value extends \Google\Protobuf\Internal\Message
      * Represents a null value.
      *
      * Generated from protobuf field <code>.google.protobuf.NullValue null_value = 1;</code>
-     * @return int one of the values in {@see \Google\Protobuf\NullValue}
+     * @return int
      */
     public function getNullValue()
     {
@@ -67,10 +67,10 @@ class Value extends \Google\Protobuf\Internal\Message
      * Represents a null value.
      *
      * Generated from protobuf field <code>.google.protobuf.NullValue null_value = 1;</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\NullValue}
+     * @param int $var
      * @return $this
      */
-    public function setNullValue(int $var)
+    public function setNullValue($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\NullValue::class);
         $this->writeOneof(1, $var);
@@ -101,8 +101,9 @@ class Value extends \Google\Protobuf\Internal\Message
      * @param float $var
      * @return $this
      */
-    public function setNumberValue(float $var)
+    public function setNumberValue($var)
     {
+        GPBUtil::checkDouble($var);
         $this->writeOneof(2, $var);
 
         return $this;
@@ -131,9 +132,9 @@ class Value extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setStringValue(string $var)
+    public function setStringValue($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->writeOneof(3, $var);
 
         return $this;
@@ -162,8 +163,9 @@ class Value extends \Google\Protobuf\Internal\Message
      * @param bool $var
      * @return $this
      */
-    public function setBoolValue(bool $var)
+    public function setBoolValue($var)
     {
+        GPBUtil::checkBool($var);
         $this->writeOneof(4, $var);
 
         return $this;
@@ -192,8 +194,9 @@ class Value extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Struct $var
      * @return $this
      */
-    public function setStructValue(\Google\Protobuf\Struct|null $var)
+    public function setStructValue($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\Struct::class);
         $this->writeOneof(5, $var);
 
         return $this;
@@ -222,8 +225,9 @@ class Value extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\ListValue $var
      * @return $this
      */
-    public function setListValue(\Google\Protobuf\ListValue|null $var)
+    public function setListValue($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\ListValue::class);
         $this->writeOneof(6, $var);
 
         return $this;

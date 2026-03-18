@@ -100,9 +100,9 @@ class Enum extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setName(string $var)
+    public function setName($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->name = $var;
 
         return $this;
@@ -126,7 +126,7 @@ class Enum extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\EnumValue[] $var
      * @return $this
      */
-    public function setEnumvalue(array|RepeatedField $var)
+    public function setEnumvalue($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\EnumValue::class);
         $this->enumvalue = $arr;
@@ -152,7 +152,7 @@ class Enum extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\Option[] $var
      * @return $this
      */
-    public function setOptions(array|RepeatedField $var)
+    public function setOptions($var)
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Google\Protobuf\Option::class);
         $this->options = $arr;
@@ -188,8 +188,9 @@ class Enum extends \Google\Protobuf\Internal\Message
      * @param \Google\Protobuf\SourceContext $var
      * @return $this
      */
-    public function setSourceContext(\Google\Protobuf\SourceContext|null $var)
+    public function setSourceContext($var)
     {
+        GPBUtil::checkMessage($var, \Google\Protobuf\SourceContext::class);
         $this->source_context = $var;
 
         return $this;
@@ -199,7 +200,7 @@ class Enum extends \Google\Protobuf\Internal\Message
      * The source syntax.
      *
      * Generated from protobuf field <code>.google.protobuf.Syntax syntax = 5;</code>
-     * @return int one of the values in {@see \Google\Protobuf\Syntax}
+     * @return int
      */
     public function getSyntax()
     {
@@ -210,10 +211,10 @@ class Enum extends \Google\Protobuf\Internal\Message
      * The source syntax.
      *
      * Generated from protobuf field <code>.google.protobuf.Syntax syntax = 5;</code>
-     * @param int $var one of the values in {@see \Google\Protobuf\Syntax}
+     * @param int $var
      * @return $this
      */
-    public function setSyntax(int $var)
+    public function setSyntax($var)
     {
         GPBUtil::checkEnum($var, \Google\Protobuf\Syntax::class);
         $this->syntax = $var;
@@ -239,9 +240,9 @@ class Enum extends \Google\Protobuf\Internal\Message
      * @param string $var
      * @return $this
      */
-    public function setEdition(string $var)
+    public function setEdition($var)
     {
-        GPBUtil::checkString($var, true);
+        GPBUtil::checkString($var, True);
         $this->edition = $var;
 
         return $this;
