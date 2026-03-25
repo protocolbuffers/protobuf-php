@@ -271,8 +271,7 @@ class CodedInputStream
     public function readRaw($size, &$buffer)
     {
         $current_buffer_size = 0;
-        // size (varint) read from the wire could be negative.
-        if ($size < 0 || $this->bufferSize() < $size) {
+        if ($this->bufferSize() < $size) {
             return false;
         }
 
@@ -338,7 +337,7 @@ class CodedInputStream
         $byte_limit, &$old_limit, &$recursion_budget)
     {
         $old_limit = $this->pushLimit($byte_limit);
-        $recursion_budget = --$this->recursion_budget;
+        $recursion_limit = --$this->recursion_limit;
     }
 
     public function decrementRecursionDepthAndPopLimit($byte_limit)

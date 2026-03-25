@@ -15,26 +15,19 @@ class CodedOutputStream
     private $buffer;
     private $buffer_size;
     private $current;
-    private $options;
 
     const MAX_VARINT64_BYTES = 10;
 
-    public function __construct($size, $options = 0)
+    public function __construct($size)
     {
         $this->current = 0;
         $this->buffer_size = $size;
         $this->buffer = str_repeat(chr(0), $this->buffer_size);
-        $this->options = $options;
     }
 
     public function getData()
     {
         return $this->buffer;
-    }
-
-    public function getOptions()
-    {
-        return $this->options;
     }
 
     public function writeVarint32($value, $trim)
@@ -98,7 +91,7 @@ class CodedOutputStream
         }
 
         while (($low >= 0x80 || $low < 0) || $high != 0) {
-            $buffer[$current] = chr(($low | 0x80) & 0xFF);
+            $buffer[$current] = chr($low | 0x80);
             $value = ($value >> 7) & ~(0x7F << ((PHP_INT_SIZE << 3) - 7));
             $carry = ($high & 0x7F) << ((PHP_INT_SIZE << 3) - 7);
             $high = ($high >> 7) & ~(0x7F << ((PHP_INT_SIZE << 3) - 7));
