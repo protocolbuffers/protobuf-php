@@ -12,8 +12,8 @@ namespace Google\Protobuf\Internal;
 use Google\Protobuf\Duration;
 use Google\Protobuf\FieldMask;
 use Google\Protobuf\Internal\GPBType;
-use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\MapField;
+use Google\Protobuf\RepeatedField;
 use function bccomp;
 
 function camel2underscore($input) {
@@ -462,6 +462,10 @@ class GPBUtil
                 $nanoseconds = substr($timestamp, $periodIndex + 1, $nanosecondsLength);
                 $nanoseconds = intval($nanoseconds);
 
+                if ($nanosecondsLength < 9) {
+                    $nanoseconds = $nanoseconds * pow(10, 9 - $nanosecondsLength);
+                }
+
                 // remove the nanoseconds and preceding period from the timestamp
                 $date = substr($timestamp, 0, $periodIndex);
                 $timezone = substr($timestamp, $periodIndex + $nanosecondsLength + 1);
@@ -636,5 +640,10 @@ class GPBUtil
                is_a($msg, "Google\Protobuf\BoolValue")   ||
                is_a($msg, "Google\Protobuf\StringValue") ||
                is_a($msg, "Google\Protobuf\BytesValue");
+    }
+
+    public static function compatibleInt64($int64, $stringInt64)
+    {
+        return PHP_INT_SIZE === 4 ? $stringInt64 : $int64;
     }
 }
