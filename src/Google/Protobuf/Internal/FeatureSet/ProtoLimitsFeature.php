@@ -12,9 +12,9 @@ use Google\Protobuf\Internal\GPBUtil;
 use Google\Protobuf\RepeatedField;
 
 /**
- * Generated from protobuf message <code>google.protobuf.FeatureSet.VisibilityFeature</code>
+ * Generated from protobuf message <code>google.protobuf.FeatureSet.ProtoLimitsFeature</code>
  */
-class VisibilityFeature extends \Google\Protobuf\Internal\Message
+class ProtoLimitsFeature extends \Google\Protobuf\Internal\Message
 {
 
     /**
